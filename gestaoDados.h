@@ -1,0 +1,8 @@
+//
+// Created by Luis on 30/04/2020.
+//
+
+#ifndef PROJETO_GESTAODADOS_H
+#define PROJETO_GESTAODADOS_H
+
+#endif //PROJETO_GESTAODADOS_H
