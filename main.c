@@ -2,20 +2,6 @@
 #include <stdlib.h>
 #include "gestaoDados.h"
 
-typedef struct data{
-    int dia;
-    int mes;
-    int ano;
-}DATA;
-
-typedef struct util{
-    char nome[100];
-    char passwd[100];
-    int idade;
-    char nacionalidade[100];
-    DATA ultima;
-}USER;
-
 
 USER registarUser(){
     USER aux;
