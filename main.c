@@ -13,6 +13,23 @@ USER registarUser(){
 
     return aux;
 }
+int menu_arranque () {
+    int opc = 0;
+    printf("*************MENU-************\n");
+    printf("***********1-JOGAR************\n");
+    printf("***********2-ADMINISTRAR******\n");
+    printf("***********0-SAIR*************\n");
+    scanf("%i", &opc);
+    return opc;
+}
+int menu_user() {
+    int opc=0;
+    printf("*******MENU*************\n");
+    printf("******1-ACESSAR CONTA***\n");
+    printf("******2-REGISTAR*******\n");
+    printf("******0-SAIR***********\n");
+    scanf("%i", &opc);
+    return opc;
 
 int main() {
     int nPerguntas=0;
