@@ -4,6 +4,35 @@
 
 #include "gestaoDados.h"
 
+//***********************************************************
+//             Registo Usuario
+//**********************************************************
+int recebeDados(USER users[], int totregistos){
+    printf("Introduza o nome: \n");
+    fflush(stdin);
+    fgets(users[totregistos].nome, 100, stdin);
+    users[totregistos].nome[strlen(users[totregistos].nome)-1]='\0';
+    printf("Insira a senha:\n");
+    //faltapartedasenha
+    printf("Idade atual:\n");
+    scanf("%i", &users[totregistos].idade);
+    printf("Introduza a sua nacionalidade:\n");
+    fflush(stdin);
+    fgets(users[totregistos].nacionalidade, 100,stdin);
+    users[totregistos].nacionalidade[strlen(users[tot].nacionalidade)-1]='\0'
+
+
+}
+
+
+
+
+
+
+
+
+
+
 //************************************************************
 //                     Guardar Fim da lista
 //************************************************************
