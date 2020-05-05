@@ -43,7 +43,7 @@ int main() {
 
     opc1=menu_arranque();
     switch(opc1){
-        case 1:{
+        case 1:jogar(users,utotal){
             opc2=menu_user();
             switch (opc2) {
                 case 1:{

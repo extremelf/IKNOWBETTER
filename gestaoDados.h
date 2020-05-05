@@ -27,7 +27,7 @@ typedef struct elem{
     struct elem *seguinte;
     struct elem *anterior;
 }ELEMENTO;
-
+void painelAdmin(USER users[], int totregistos)
 int gravarEmFicheiro(ELEMENTO *inilista,int totregistos);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
