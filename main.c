@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "gestaoDados.h"
 
 
@@ -23,24 +21,21 @@ int menu_arranque () {
     return opc;
 }
 int menu_user() {
-    int opc=0;
+    int opc = 0;
     printf("*******MENU*************\n");
     printf("******1-ACESSAR CONTA***\n");
     printf("******2-REGISTAR*******\n");
     printf("******0-SAIR***********\n");
     scanf("%i", &opc);
     return opc;
-
+}
 int main() {
     int nPerguntas=0;
 
     printf("\n");
     printf("Qual a quantidade de perguntas a jogar:");
     scanf("%i",&nPerguntas);
-    while(nPerguntas!=0){
 
-        nPerguntas--;
-    }
 
     return 0;
 }
