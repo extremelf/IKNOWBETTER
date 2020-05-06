@@ -19,7 +19,7 @@ int recebeDados(USER users[], int totregistos){
     printf("Introduza a sua nacionalidade:\n");
     fflush(stdin);
     fgets(users[totregistos].nacionalidade, 100,stdin);
-    users[totregistos].nacionalidade[strlen(users[tot].nacionalidade)-1]='\0'
+    users[totregistos].nacionalidade[strlen(users[totregistos].nacionalidade)-1]='\0';
 
 
 }
@@ -81,6 +81,7 @@ void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista){
 //************************************************************
 //                      Guardar em ficheiro
 //************************************************************
+// No final da execução guardar tudo
 int gravarEmFicheiro(ELEMENTO *inilista,int totregistos){
     ELEMENTO *aux=NULL;
     FILE *fp=NULL;
@@ -101,3 +102,8 @@ int gravarEmFicheiro(ELEMENTO *inilista,int totregistos){
 }
 //************************************************************
 
+//************************************************************
+//                      Guardar em ficheiro
+//************************************************************
+
+//************************************************************
