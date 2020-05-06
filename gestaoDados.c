@@ -34,9 +34,9 @@ int recebeDados(USER users[], int totregistos){
 
 
 //************************************************************
-//                     Guardar Fim da lista
+//                     Guardar Fim da lista User
 //************************************************************
-int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info){
+int inserirFimListaUser(ELEMENTO **iniListaUser,ELEMENTO **fimListaUser, USER aux_info){
     ELEMENTO *novo=NULL;
     novo=(ELEMENTO *)calloc(1,sizeof(ELEMENTO));
 
@@ -47,33 +47,123 @@ int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info){
     novo->info=aux_info;
     novo->anterior=NULL;
     novo->seguinte=NULL;
-    if(*fimlista==NULL){
-        *inilista=novo;
-        *fimlista=novo;
+    if(*fimListaUser==NULL){
+        *iniListaUser=novo;
+        *fimListaUser=novo;
     }
     else{
-        novo->anterior=*fimlista;
-        (*fimlista)->seguinte=novo;
-        *fimlista=novo;
+        novo->anterior=*fimListaUser;
+        (*fimListaUser)->seguinte=novo;
+        *fimListaUser=novo;
     }
     return 0;
 }
 //************************************************************
 
 //************************************************************
-//                      Limpar Lista
+//                     Guardar Fim da lista Perguntas
 //************************************************************
-void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista){
+int inserirFimListaPergunta(ELEMENTOP **iniListaPerguntas,ELEMENTOP **fimListaPerguntas, PERGUNTA aux_info){
+    ELEMENTOP *novo=NULL;
+    novo=(ELEMENTOP *)calloc(1,sizeof(ELEMENTOP));
+
+    if(novo==NULL){
+        printf("Erro ao alocar memória\n");
+        return -1;
+    }
+    novo->info=aux_info;
+    novo->anterior=NULL;
+    novo->seguinte=NULL;
+    if(*fimListaPerguntas==NULL){
+        *iniListaPerguntas=novo;
+        *fimListaPerguntas=novo;
+    }
+    else{
+        novo->anterior=*fimListaPerguntas;
+        (*fimListaPerguntas)->seguinte=novo;
+        *fimListaPerguntas=novo;
+    }
+    return 0;
+}
+//************************************************************
+
+//************************************************************
+//                      Limpar Lista User
+//************************************************************
+void limparListaUser(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
     ELEMENTO *aux, *proximo;
 
-    aux=*inilista;
+    aux=*iniListaUser;
     while(aux!=NULL){
         proximo=aux->seguinte;
         free(aux);
         aux=proximo;
     }
-    *inilista=NULL;
-    *fimlista=NULL;
+    *iniListaUser=NULL;
+    *fimListaUser=NULL;
+    free(proximo);
+}
+//************************************************************
+
+//************************************************************
+//                      Limpar Lista Perguntas
+//************************************************************
+void limparListaPerguntas(ELEMENTOP **iniListaPerguntas, ELEMENTOP **fimListaPerguntas){
+    ELEMENTOP *aux, *proximo;
+
+    aux=*iniListaPerguntas;
+    while(aux!=NULL){
+        proximo=aux->seguinte;
+        free(aux);
+        aux=proximo;
+    }
+    *iniListaPerguntas=NULL;
+    *fimListaPerguntas=NULL;
+    free(proximo);
+}
+//************************************************************
+
+//************************************************************
+//                     Guardar Fim da lista Pergunta Escolhida
+//************************************************************
+int inserirFimListaPerguntaEscolhida(PESCOLHIDA **iniListaPerguntaEscolhida,PESCOLHIDA **fimListaPerguntaEscolhida, PCHOOSEN aux_info){
+    PESCOLHIDA *novo=NULL;
+    novo=(PESCOLHIDA *)calloc(1,sizeof(PESCOLHIDA));
+
+    if(novo==NULL){
+        printf("Erro ao alocar memória\n");
+        return -1;
+    }
+    novo->info=aux_info;
+    novo->anterior=NULL;
+    novo->seguinte=NULL;
+    if(*fimListaPerguntaEscolhida==NULL){
+        *iniListaPerguntaEscolhida=novo;
+        *fimListaPerguntaEscolhida=novo;
+    }
+    else{
+        novo->anterior=*fimListaPerguntaEscolhida;
+        (*fimListaPerguntaEscolhida)->seguinte=novo;
+        *fimListaPerguntaEscolhida=novo;
+    }
+    return 0;
+}
+//************************************************************
+
+//************************************************************
+//                      Limpar Lista Pergunta escolhida
+//************************************************************
+void limparListaPerguntaEscolhida(PESCOLHIDA **iniListaPerguntaEscolhida, PESCOLHIDA **fimListaPerguntaEscolhida){
+    ELEMENTO *aux, *proximo;
+
+    aux=*iniListaPerguntaEscolhida;
+    while(aux!=NULL){
+        proximo=aux->seguinte;
+        free(aux);
+        aux=proximo;
+    }
+    *iniListaPerguntaEscolhida=NULL;
+    *fimListaPerguntaEscolhida=NULL;
     free(proximo);
 }
 //************************************************************
@@ -103,7 +193,58 @@ int gravarEmFicheiro(ELEMENTO *inilista,int totregistos){
 //************************************************************
 
 //************************************************************
-//                      Guardar em ficheiro
+//                      Obter tempo atual
+//************************************************************
+DATA getdate(){
+    DATA atual;
+    struct timeval usec_time;
+    time_t now = time(0);
+    gettimeofday(&usec_time,NULL);
+
+    struct tm *current = localtime(&now);
+    atual.ano=current->tm_year+1900;
+    atual.mes=current->tm_mon+1;
+    atual.dia=current->tm_mday;
+
+    return atual;
+}
 //************************************************************
 
 //************************************************************
+//                  Remover participante
+//************************************************************
+int removerPergunta(PESCOLHIDA **iniListaPerguntaEscolhida, PESCOLHIDA **fimListaPerguntaEscolhida, int posicao){
+    PESCOLHIDA *aux=NULL;
+
+    aux=*iniListaPerguntaEscolhida;
+    while(aux!=NULL && aux->info.posicao!=posicao){
+        aux=aux->seguinte;
+    }
+    if(aux==NULL){
+        printf("Numero não existe\n");
+        return -1;
+    }
+    if(aux->anterior==NULL){                //remover 1º da lista
+        *iniListaPerguntaEscolhida=aux->seguinte;
+        if(*iniListaPerguntaEscolhida!=NULL){
+            (*iniListaPerguntaEscolhida)->anterior=NULL;
+            aux->seguinte->anterior=*iniListaPerguntaEscolhida;
+        }
+    }
+    else{
+        aux->anterior->seguinte=aux->seguinte;
+    }
+    if(aux->seguinte==NULL){                //remover ultimo da lista
+        *fimListaPerguntaEscolhida=aux->anterior;
+        if(*fimListaPerguntaEscolhida!=NULL){
+            (*fimListaPerguntaEscolhida)->seguinte=NULL;
+        }
+    }
+    else{
+        aux->seguinte->anterior=aux->anterior;
+    }
+    free(aux);
+    return 0;
+}
+//************************************************************
+

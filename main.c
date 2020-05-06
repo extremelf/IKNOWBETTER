@@ -41,9 +41,13 @@ int main() {
     USER newUser;
     ELEMENTO *iniListaUser=NULL, *fimListaUser=NULL;
     ELEMENTOP *iniListaPerguntas=NULL, *fimListaPerguntas=NULL;
+    PESCOLHIDA *iniListaPerguntaEscolhida=NULL, *fimListaPerguntaEscolhida=NULL;
 
     iniListaUser=(ELEMENTO *)calloc(1,sizeof(ELEMENTO));
     iniListaPerguntas=(ELEMENTOP *)calloc(1,sizeof(ELEMENTOP));
+    iniListaPerguntaEscolhida=(PESCOLHIDA *)calloc(1,sizeof(PESCOLHIDA));
+
+    srand(time(0));
 
     opc1=menu_arranque();
     switch(opc1){
@@ -57,7 +61,7 @@ int main() {
                     if(jogadores<=2){
                         newUser=registarUser();
                         newUser->admin=0;
-                        inserirFimLista(iniListaUser,fimListaUser,newUser);
+                        inserirFimListaUser(iniListaUser,fimListaUser,newUser);
                         jogadores++;
                     }
                     else{

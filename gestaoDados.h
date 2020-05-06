@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <sys\time.h>
 
 typedef struct data{
     int dia;
@@ -27,10 +28,10 @@ typedef struct perguntas{
 }PERGUNTA;
 
 
-typedef struct elem{
+typedef struct elemp{
     PERGUNTA info;
-    struct elem *seguinte;
-    struct elem *anterior;
+    struct elemp *seguinte;
+    struct elemp *anterior;
 }ELEMENTOP;
 
 typedef struct util{
@@ -51,8 +52,22 @@ typedef struct elem{
     struct elem *anterior;
 }ELEMENTO;
 
+typedef struct perguntachoosen{
+    int posicao;
+}PCHOOSEN;
+typedef struct perguntaEscolhida{
+    PCHOOSEN info;
+    struct perguntaEscolhida *seguinte;
+    struct perguntaEscolhida *anterior;
+}PESCOLHIDA;
+
 void painelAdmin(USER users[], int totregistos);
 int gravarEmFicheiro(ELEMENTO *inilista,int totregistos);
-int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
-void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
+int inserirFimListaUser(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
+int inserirFimListaPergunta(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
+int inserirFimListaPerguntaEscolhida(PESCOLHIDA **iniListaPerguntaEscolhida,PESCOLHIDA **fimListaPerguntaEscolhida, PCHOOSEN aux_info);
+void limparListaUser(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser);
+void limparListaPerguntas(ELEMENTOP **iniListaPerguntas, ELEMENTOP **fimListaPerguntas);
+void limparListaPerguntaEscolhida(PESCOLHIDA **iniListaPerguntaEscolhida, PESCOLHIDA **fimListaPerguntaEscolhida);
+int removerPergunta(PESCOLHIDA **iniListaPerguntaEscolhida, PESCOLHIDA **fimListaPerguntaEscolhida, int posicao);
 #endif //PROJETO_GESTAODADOS_H
