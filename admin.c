@@ -7,7 +7,7 @@
 void painelAdmin(USER users[], int totregistos){ //usuariostotal
     int opc;
     ELEMENTO *inilista=NULL, *fimlista=NULL;
-    USER infos;
+    INFO infos;
     //int perG=0;
     //perG=lerperguntas
     if(checkAdmin(users,totregistos)==1) {
@@ -32,7 +32,7 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                     alterarlista(iniLista);
                     break;
                 case 4:
-                    remover(&inilista, &fimlista,);
+                    remover(&inilista, &fimlista);
                     break;
                 case 5:
                     listUser(users, totregistos);
