@@ -16,6 +16,8 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
             printf("2 - Adicionar Perguntas\n");
             printf("3 - Alterar pergunta\n");
             printf("4 - Remover pergunta\n");
+            printf("5 - Listar por ordem alfabética\n");
+            printf("6 - Listar utilizadores\n");
             printf("0 - SAIR\n");
             scanf("%i", &opc);
             switch (opc) {
@@ -32,12 +34,15 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                 case 4:
                     remover(&inilista, &fimlista);
                     break;
-                case 0:
+                case 5:
+                    listUser(users, totregistos);
+                    break;
+                    case 0:
                     escreverPerg(inilista, fimlista);
                     limparLista(&inilista, &fimlista);
                     break;
                 default:
-                    printf("Escolha uma opção entre 1 e 4\n");
+                    printf("Escolha uma opção entre 1 e 6\n");
             }
         } while (opc != 0);
     } else {

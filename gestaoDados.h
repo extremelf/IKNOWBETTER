@@ -16,7 +16,8 @@ typedef struct data{
 
 typedef struct util{
     char nome[100];
-    char passwd[100];
+    char username[30];
+    char passwd[30];
     int idade;
     char nacionalidade[100];
     DATA ultima;
@@ -31,4 +32,5 @@ void painelAdmin(USER users[], int totregistos)
 int gravarEmFicheiro(ELEMENTO *inilista,int totregistos);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
+int loginUser (USER users[], int totregistos);
 #endif //PROJETO_GESTAODADOS_H
