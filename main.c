@@ -1,5 +1,5 @@
 #include "gestaoDados.h"
-
+#define MAXUSERS 2
 
 USER registarUser(){
     USER aux;
@@ -8,6 +8,11 @@ USER registarUser(){
     scanf("%100[^\n]s",aux.nome);
     printf("Introduza password:\n");
     scanf("%100[^\n]s",aux.passwd);
+    printf("Introduza idade:\n");
+    scanf("%100[^\n]s",aux.idade);
+    printf("Introduza nacionalidade:\n");
+    scanf("%100[^\n]s",aux.nacionalidade);
+    aux.dinheiroCaixa=900;
 
     return aux;
 }
@@ -32,14 +37,17 @@ int menu_user() {
 int main() {
     int nPerguntas=0;
     int opc1=0, opc2=0;
+    int jogadores=0;
     USER newUser;
     ELEMENTO *iniListaUser=NULL, *fimListaUser=NULL;
+    ELEMENTOP *iniListaPerguntas=NULL, *fimListaPerguntas=NULL;
+    PESCOLHIDA *iniListaPerguntaEscolhida=NULL, *fimListaPerguntaEscolhida=NULL;
 
     iniListaUser=(ELEMENTO *)calloc(1,sizeof(ELEMENTO));
+    iniListaPerguntas=(ELEMENTOP *)calloc(1,sizeof(ELEMENTOP));
+    iniListaPerguntaEscolhida=(PESCOLHIDA *)calloc(1,sizeof(PESCOLHIDA));
 
-    printf("\n");
-    printf("Qual a quantidade de perguntas a jogar:");
-    scanf("%i",&nPerguntas);
+    srand(time(0));
 
     opc1=menu_arranque();
     switch(opc1){
@@ -50,13 +58,28 @@ int main() {
                     break;
                 }
                 case 2:{
-                    newUser=registarUser();
-                    inserirFimLista(iniListaUser,fimListaUser,newUser);
+                    if(jogadores<=2){
+                        newUser=registarUser();
+                        newUser->admin=0;
+                        inserirFimListaUser(iniListaUser,fimListaUser,newUser);
+                        jogadores++;
+                    }
+                    else{
+                        printf("Maximo de jogadores atingido");
+                    }
                     break;
                 }
-
             }
         }
+        case 2:{
+            newUser=registarUser();
+            newUser->admin=1;
+            inserirFimLista(iniListaUser,fimListaUser,newUser);
+
+        }
+    }
+    if(jogadores==2){
+        //começa jogo
     }
 
 
