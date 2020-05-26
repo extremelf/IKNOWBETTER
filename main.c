@@ -33,6 +33,7 @@ int main() {
     int nPerguntas=0;
     int opc1=0, opc2=0;
     USER newUser;
+    printf("BEM VINDOS AO JOGO I KNOW BETTER");
     ELEMENTO *iniListaUser=NULL, *fimListaUser=NULL;
 
     iniListaUser=(ELEMENTO *)calloc(1,sizeof(ELEMENTO));

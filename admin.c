@@ -34,8 +34,8 @@ void ordenaPorNome(USER users[], int totregistos, int tam){
     int i,j,mudar=1;
     USER aux;
     mudar=0;
-    for (x=0;x<tam && mudar==0;x++) {
-        troca=1;
+    for (x=0;x<tam && mudar=0;x++) {
+        mudar=1;
         for (i=0;i<tam-1;i++) {
             if (stricmp(users[i].nome,users[i+1].nome)>0) {
                 aux=users[i];
@@ -80,7 +80,8 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                 case 4:
                     remover(&inilista, &fimlista);
                     break;
-                case 5:ordenaPorNome(USER users[], int totregistos, int tam)
+                case 5:ordenaPorNome(USER users[], int totregistos, int tam);
+                    listUsers(users,utotal)
                     break;
                 case 6:
                     listUser(users, totregistos);
