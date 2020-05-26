@@ -60,31 +60,32 @@ int main() {
 
     ELEMENTO perguntasJogo[nPerguntas];
 
-    opc1=menu_arranque();
-    switch(opc1){
-        case 1:jogar(users,utotal){
-            opc2=menu_user();
-            switch (opc2) {
-                case 1:{
-                    do{
+    do{
+        opc1=menu_arranque();
+        switch(opc1){
+            case 1:jogar(users,utotal){
+                opc2=menu_user();
+                switch (opc2) {
+                    case 1:{
                         do{
-                            user[i]=login(iniListaUser,fimListaUser);
-                        }while(user[i]==NULL);
-                        i++;
-                    }while(i!=2 && user[1]==NULL && user[2]==NULL);
+                            do{
+                                user[i]=login(iniListaUser,fimListaUser);
+                            }while(user[i]==NULL);
+                            i++;
+                        }while(i!=2 && user[1]==NULL && user[2]==NULL);
 
-                    break;
-                }
-                case 2:{
-                    newUser=registarUser();
-                    inserirFimLista(iniListaUser,fimListaUser,newUser);
-                    break;
-                }
+                        break;
+                    }
+                    case 2:{
+                        newUser=registarUser();
+                        inserirFimLista(iniListaUser,fimListaUser,newUser);
+                        break;
+                    }
 
+                }
             }
         }
     }
-
 
     return 0;
 }

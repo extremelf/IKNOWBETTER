@@ -4,29 +4,50 @@
 
 #include "gestaoDados.h"
 
-//***********************************************************
-//             Registo Usuario
-//**********************************************************
-int recebeDados(USER users[], int totregistos){
-    printf("Introduza o nome: \n");
-    fflush(stdin);
-    fgets(users[totregistos].nome, 100, stdin);
-    users[totregistos].nome[strlen(users[totregistos].nome)-1]='\0';
-    printf ("Introduza um user:\n");
-    fflush(stdin);
-    fgets(users[totregistos].username, 30, stdin);
-    users[totregistos].username[strlen(users[totregistos].username)-1]='\0';
-    printf("Insira a senha:\n");
-    //faltapartedasenha
-    printf("Idade atual:\n");
-    scanf("%i", &users[totregistos].idade);
-    printf("Introduza a sua nacionalidade:\n");
-    fflush(stdin);
-    fgets(users[totregistos].nacionalidade, 100,stdin);
-    users[totregistos].nacionalidade[strlen(users[tot].nacionalidade)-1]='\0'
+//************************************************************
+//                     Guardar Fim da lista User
+//************************************************************
+int inserirFimListaUser(ELEMENTO **iniListaUser,ELEMENTO **fimListaUser, USER aux_info){
+    ELEMENTO *novo=NULL;
+    novo=(ELEMENTO *)calloc(1,sizeof(ELEMENTO));
 
-
+    if(novo==NULL){
+        printf("Erro ao alocar memória\n");
+        return -1;
+    }
+    novo->info=aux_info;
+    novo->anterior=NULL;
+    novo->seguinte=NULL;
+    if(*fimListaUser==NULL){
+        *iniListaUser=novo;
+        *fimListaUser=novo;
+    }
+    else{
+        novo->anterior=*fimListaUser;
+        (*fimListaUser)->seguinte=novo;
+        *fimListaUser=novo;
+    }
+    return 0;
 }
+//************************************************************
+
+//************************************************************
+//                      Limpar Lista User
+//************************************************************
+void limparListaUser(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
+    ELEMENTO *aux, *proximo;
+
+    aux=*iniListaUser;
+    while(aux!=NULL){
+        proximo=aux->seguinte;
+        free(aux);
+        aux=proximo;
+    }
+    *iniListaUser=NULL;
+    *fimListaUser=NULL;
+    free(proximo);
+}
+//************************************************************
 
 //*********************************************************
 // LOGIN USER
@@ -169,3 +190,25 @@ int gravarEmFicheiro(ELEMENTO *inilista,int totregistos) {
 
     return 0;
 }
+//************************************************************
+
+//************************************************************
+//                      Obter tempo atual
+//************************************************************
+DATA getdate(){
+    DATA atual;
+    struct timeval usec_time;
+    time_t now = time(0);
+    gettimeofday(&usec_time,NULL);
+
+    struct tm *current = localtime(&now);
+    atual.ano=current->tm_year+1900;
+    atual.mes=current->tm_mon+1;
+    atual.dia=current->tm_mday;
+
+    return atual;
+}
+//************************************************************
+
+
+
