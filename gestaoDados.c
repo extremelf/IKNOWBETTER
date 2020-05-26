@@ -30,6 +30,45 @@ int recebeDados(USER users[], int totregistos){
 }
 
 //*********************************************************
+// LOGIN ADMINISTRADOR
+//********************************************************
+int checkAdmin (USER users[],int totregistos) {
+    char username[50];
+    char password[50];
+    int x,id=-1;
+
+    printf("Introduza o seu username:\n");
+    fflush(stdin);
+    gets(utilizador);
+    for (x=0;x<totalr;x++) {
+        if (strcmp(users[x].nick,utilizador)==0) {
+            id=x;
+        }
+    }
+    if (id==-1) {
+        printf("O utilizador não está registado\n");
+        return 0;
+    }
+    printf("Introduza a Password:\n");
+    fflush(stdin);
+    gets(password);
+
+    if (strcmp(users[id].password,password)!=0) {
+        printf("A password não coresponde\n");
+        return -1;
+    }
+    if (users[id].isAdmin==1) {
+        printf("Bem Vindo Administrador %s\n",users[id].username);
+        return 1;
+    } else {
+        printf("Não é administrador");
+        return login;
+    }
+}
+
+
+
+//*********************************************************
 // LOGIN USER
 //*********************************************************
 
@@ -69,9 +108,11 @@ printf("\n\n Login efetuado com sucesso");
 {
 printf("\n\n Senha incorreta");
 }
-/*  return game; */  falta
-
-
+if (users[id].isAdmin==1) {
+        printf("Como e administrador nao pode jogar\n");
+        return -1;
+    }
+/*  return game;                  FALTA RETURNNNNNN                              FALTA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
 }
 
