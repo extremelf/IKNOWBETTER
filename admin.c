@@ -8,30 +8,45 @@
 //LISTAR UTILIZADORES
 //*****************************************************
 void listUsers(USER users[], int totregistos){
-    int i=0;
-    printf("Listar todos os utilizadores:\n");
-    for(i=0;i<totregistos;i++){
-        printf("%s - %s %s %.s\n", totregistos[i].nome, totregistos[i].username,
-               totregistos[i].idade, totregistos[i].nacionalidade, );
+    int i;
+
+    if (totregistos==0) {
+        printf("Não ha utilizadores\n");
+        return;
+    }
+
+    for (i=0;i<totregistos;i++) {
+        printf("Nome: %s\n username: %s \n idade: %s \n  nacionalidade: %s \n ",users[i].nome,users[i].username,users[i].idade, users[i].nacionalidade);
+        if (users[i].isAdmin==1) {
+            printf("E Administrador\n");
+        } else {
+            printf("E Jogador\n");
+        }
     }
 }
+
+
 
 //********************************************************
 // Listar por ordem alfabetica
 //********************************************************
-void ordenaPorNome(USER users[], int totregistos){
-    int i=0, x=0;
+void ordenaPorNome(USER users[], int totregistos, int tam){
+    int i,j,mudar=1;
     USER aux;
-    for(x=0; x<totregistos;x++){
-        for(i=0;i<totregistos-1-x;i++){
-            if(strcmp(users[i].nome,users[i+1].nome)>0){
+    mudar=0;
+    for (x=0;x<tam && mudar==0;x++) {
+        troca=1;
+        for (i=0;i<tam-1;i++) {
+            if (stricmp(users[i].nome,users[i+1].nome)>0) {
                 aux=users[i];
-                users[i]= users[i+1];
+                users[i]=users[i+1];
                 users[i+1]=aux;
+                mudar=0;
             }
         }
     }
 }
+
 //**************************************************
 //PAINEL
 //**************************************************
@@ -65,7 +80,7 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                 case 4:
                     remover(&inilista, &fimlista);
                     break;
-                case 5:ordenaPorNome(USER users[], int totregistos)
+                case 5:ordenaPorNome(USER users[], int totregistos, int tam)
                     break;
                 case 6:
                     listUser(users, totregistos);
