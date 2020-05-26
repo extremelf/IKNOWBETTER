@@ -13,7 +13,7 @@ int recebeDados(USER users[], int totregistos){
     fgets(users[totregistos].nome, 100, stdin);
     users[totregistos].nome[strlen(users[totregistos].nome)-1]='\0';
     printf ("Introduza um user:\n");
-    fflsuh(stdin);
+    fflush(stdin);
     fgets(users[totregistos].username, 30, stdin);
     users[totregistos].username[strlen(users[totregistos].username)-1]='\0';
     printf("Insira a senha:\n");
@@ -37,7 +37,7 @@ int loginUser (USER users[], int totregistos){
     int aux, id=-1; //-1 começa do anterior e vai "escalando"
 
     printf("Introduza o sue username:\n");
-    fflsuh(stdin);
+    fflush(stdin);
     gets(utili);
     for(aux=0;aux<totregistos;aux++){
         if(strcmp(users[aux].username,utili)==0){
@@ -65,9 +65,39 @@ int loginUser (USER users[], int totregistos){
 }
 
 
+//************************************************************
+//************************************************************
+ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista){
+    char user[30], passw[100];
+    ELEMENTO *aux=NULL;
+    int check=0, tentativas=3;
 
+    printf("Introduza o nome de utilizador:\n");
+    scanf(" %30[^\n]s",user);
 
+    aux=iniLista;
 
+    while(strcmp(aux->info.username,user)!=0){
+    aux=aux->seguinte;
+    }
+
+    do{
+        printf("Introduza a password:\n");
+        scanf(" %100[^\n]s",passw);
+        if(strcmp(aux->info.passwd,passw)==0){
+            printf("Password Correta\n");
+            check=1;
+            return aux;
+        }
+        else{
+            tentativas--;
+            printf("Password incorreta - %i tentativas restantes\n",tentativas);
+            check=0;
+        }
+    }while(check!=1 || tentativas<0);
+    return NULL;
+}
+//************************************************************
 
 
 

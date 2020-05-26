@@ -6,6 +6,8 @@
 #define PROJETO_GESTAODADOS_H
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <time.h>
 
 
 typedef struct data{
@@ -20,6 +22,7 @@ typedef struct util{
     char passwd[30];
     int idade;
     char nacionalidade[100];
+    int isAdmin;
     DATA ultima;
 }USER;
 
@@ -28,9 +31,23 @@ typedef struct elem{
     struct elem *seguinte;
     struct elem *anterior;
 }ELEMENTO;
-void painelAdmin(USER users[], int totregistos)
+
+typedef struct perguntas{
+    int indice;
+    char pergunta[100];
+    char respostas[5][100];
+    char correta[1];
+}PERGUNTA;
+
+typedef struct elemp{
+    PERGUNTA info;
+    struct elemp *seguinte;
+    struct elemp *anterior;
+}ELEMENTOP;
+void painelAdmin(USER users[], int totregistos);
 int gravarEmFicheiro(ELEMENTO *inilista,int totregistos);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 int loginUser (USER users[], int totregistos);
+ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista);
 #endif //PROJETO_GESTAODADOS_H
