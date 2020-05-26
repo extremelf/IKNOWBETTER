@@ -36,7 +36,7 @@ int loginUser (USER users[], int totregistos){
     char senha[30];
     int aux, id=-1; //-1 começa do anterior e vai "escalando"
 
-    printf("Introduza o sue username:\n");
+    printf("Introduza o username:\n");
     fflsuh(stdin);
     gets(utili);
     for(aux=0;aux<totregistos;aux++){
@@ -50,6 +50,7 @@ int loginUser (USER users[], int totregistos){
         printf("Esse utilizador não está registado\n");
         return -1;
     }
+
         printf("Introduza a password:\n");
         fflush(stdin);
          gets(senha); //FALTA ENCRIPTAR

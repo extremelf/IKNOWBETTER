@@ -4,6 +4,37 @@
 #include "gestaoDados.h"
 
 
+//*****************************************************
+//LISTAR UTILIZADORES
+//*****************************************************
+void listUsers(USER users[], int totregistos){
+    int i=0;
+    printf("Listar todos os utilizadores:\n");
+    for(i=0;i<totregistos;i++){
+        printf("%s - %s %s %.s\n", totregistos[i].nome, totregistos[i].username,
+               totregistos[i].idade, totregistos[i].nacionalidade, );
+    }
+}
+
+//********************************************************
+// Listar por ordem alfabetica
+//********************************************************
+void ordenaPorNome(USER users[], int totregistos){
+    int i=0, x=0;
+    USER aux;
+    for(x=0; x<totregistos;x++){
+        for(i=0;i<totregistos-1-x;i++){
+            if(strcmp(users[i].nome,users[i+1].nome)>0){
+                aux=users[i];
+                users[i]= users[i+1];
+                users[i+1]=aux;
+            }
+        }
+    }
+}
+//**************************************************
+//PAINEL
+//**************************************************
 void painelAdmin(USER users[], int totregistos){ //usuariostotal
     int opc;
     ELEMENTO *inilista=NULL, *fimlista=NULL;
@@ -34,7 +65,9 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                 case 4:
                     remover(&inilista, &fimlista);
                     break;
-                case 5:
+                case 5:ordenaPorNome(USER users[], int totregistos)
+                    break;
+                case 6:
                     listUser(users, totregistos);
                     break;
                     case 0:
@@ -48,6 +81,7 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
     } else {
         printf("Não é o administrador\0");
     }
+
 
 
 
