@@ -1,7 +1,11 @@
 #include "gestaoDados.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<locale.h>
+#include <conio.h>
 
 
-USER registarUser(){
+/*USER registarUser(){
     USER aux;
 
     printf("Introduza nome:\n");
@@ -10,12 +14,13 @@ USER registarUser(){
     scanf("%100[^\n]s",aux.password);
 
     return aux;
-}
+} */
 int menu_arranque () {
     int opc = 0;
-    printf("*************MENU-************\n");
+    printf("************BEM VINDO AO I KNOW BETTER!*****************\n");
+    printf("*************MENU************\n");
     printf("***********1-JOGAR************\n");
-    printf("***********2-ADMINISTRAR******\n");
+    printf("***********2-ADMINISTRAR******\n"); //vai direto para o checkadmin
     printf("***********0-SAIR*************\n");
     scanf("%i", &opc);
     return opc;
@@ -30,6 +35,8 @@ int menu_user() {
     return opc;
 }
 int main() {
+    setlocale(LC_ALL, "Portuguese");
+    system("COLOR FC");
     int nPerguntas=0;
     int opc1=0, opc2=0;
     USER newUser;
@@ -56,10 +63,17 @@ int main() {
                     newUser=registarUser();
                     inserirFimLista(iniListaUser,fimListaUser,newUser);
                     break;
+                    case 3: {
+                        Admin(users, utotal);
+                        checkAdmin (USER users[],int totregistos);
+                        break;
+
+
+                    }
                 }
 
             }
-            
+
 
         }
     }

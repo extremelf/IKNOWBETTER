@@ -17,7 +17,7 @@ typedef struct data{
 typedef struct util{
     char nome[100];
     char username[30];
-    char passwd[30];
+    char password[30];
     int idade;
     char nacionalidade[100];
     DATA ultima;

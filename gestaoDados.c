@@ -25,6 +25,24 @@ int recebeDados(USER users[], int totregistos){
     fflush(stdin);
     fgets(users[totregistos].nacionalidade, 100,stdin);
     users[totregistos].nacionalidade[strlen(users[tot].nacionalidade)-1]='\0'
+    printf("Pretende ser administrador?");
+    fflush(stdin);
+    scanf("%i",&users[totregistos].isAdmin);
+    if (users[totregistos].isAdmin!=1 && users[totregistos].isAdmin!=2) {  //Verification of admin
+        printf(" Apenas pode colocar 1 ou 0\n");
+        return totregistos; //if error return the same number
+    }
+        } else {
+        users[totregistos].isAdmin=1;
+    }
+        printf("Registo efetuado com sucesso %s\n",users[totregistos].username);
+        if (users[totregistos].isAdmin==1) {
+        printf("Es administrador\n");
+    }
+        users[totregistos].coins=0;
+        return (totregistos+1);
+}
+
 
 
 }
@@ -54,7 +72,7 @@ int checkAdmin (USER users[],int totregistos) {
     gets(password);
 
     if (strcmp(users[id].password,password)!=0) {
-        printf("A password não coresponde\n");
+        printf("A password não corresponde\n");
         return -1;
     }
     if (users[id].isAdmin==1) {
