@@ -7,7 +7,7 @@ USER registarUser(){
     printf("Introduza nome:\n");
     scanf("%100[^\n]s",aux.nome);
     printf("Introduza password:\n");
-    scanf("%100[^\n]s",aux.passwd);
+    scanf("%100[^\n]s",aux.password);
 
     return aux;
 }
@@ -48,6 +48,8 @@ int main() {
             opc2=menu_user();
             switch (opc2) {
                 case 1:{
+                    jogar(users,utotal);
+                    loginUser (USER users[], int totregistos);
                     break;
                 }
                 case 2:{

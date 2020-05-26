@@ -1,7 +1,8 @@
 //
 // Created by Luis on 30/04/2020.
 //
-
+#include <stdlib.h>
+#include <conio.h>
 #include "gestaoDados.h"
 
 //***********************************************************
@@ -31,48 +32,48 @@ int recebeDados(USER users[], int totregistos){
 //*********************************************************
 // LOGIN USER
 //*********************************************************
-int loginUser (USER users[], int totregistos){
-    char utili[30];
-    char senha[30];
-    int aux, id=-1; //-1 começa do anterior e vai "escalando"
 
-    printf("Introduza o username:\n");
-    fflsuh(stdin);
-    gets(utili);
-    for(aux=0;aux<totregistos;aux++){
-        if(strcmp(users[aux].username,utili)==0){
-            id=aux;
-        }
+void login_user(USER users, int totregistos){
+        char username[50];
+        char password[50];
+        int i;
 
-    }
-    //1 via equivale verdadeiro
-    if(id==1){
-        printf("Esse utilizador não está registado\n");
-        return -1;
-    }
+                printf("Introduza o username : \n");
+//gets(username);
+//fflush(stdin);
+//scanf("%s",username);
 
-        printf("Introduza a password:\n");
-        fflush(stdin);
-         gets(senha); //FALTA ENCRIPTAR
-    if( strcmp(users[id].senha, senha)!=0){  // comparar as senhas para verificar se é a correta no utilizador inserido
-        printf("A senha não corresponde ao utilizador inserido"\n);
-     return -1;
-    }
-    if(users[id].isAdmin==1){
-        printf("Administrador não está autorizado a jogar\n");
-        return -1
-    }
-    return id;  //retornar ao usuario
+printf("Introduza a senha : \n");
+fflsuh(stdin);
+fgets(users[totregistos].username, 30, stdin);
+users[totregistos].username[strlen(users[totregistos].username)-1]='\0';
+/* Aceitar senha */
+
+
+for(i=0;i<8;i++)
+{
+password[i]=getch();
+printf("*");
 }
+password[i]='\0';
+
+/*------------------*/
+
+printf("\n\n Digite em qualque tecla");
+getch();
+
+if(!strcmp(username,"") && !strcmp(password,""))
+{
+printf("\n\n Login efetuado com sucesso");
+}else
+{
+printf("\n\n Senha incorreta");
+}
+/*  return game; */  falta
 
 
 
-
-
-
-
-
-
+}
 
 //************************************************************
 //                     Guardar Fim da lista

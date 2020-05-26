@@ -33,4 +33,8 @@ int gravarEmFicheiro(ELEMENTO *inilista,int totregistos);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 int loginUser (USER users[], int totregistos);
+void ordenaPorNome(USER users[], int totregistos, int tam);
+void listUsers(USER users[], int totregistos);
+
+
 #endif //PROJETO_GESTAODADOS_H
