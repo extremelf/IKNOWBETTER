@@ -2,7 +2,7 @@
 // Created by Luis on 30/04/2020.
 //
 #include <stdlib.h>
-#include <conio.h>
+
 #include "gestaoDados.h"
 
 //***********************************************************
