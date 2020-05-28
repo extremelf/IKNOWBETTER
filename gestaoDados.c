@@ -152,6 +152,34 @@ int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info){
 //************************************************************
 
 //************************************************************
+//                     Guardar Fim da lista Perguntas
+//************************************************************
+int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info){
+    ELEMENTOP *novo=NULL;
+    novo=(ELEMENTOP *)calloc(1,sizeof(ELEMENTOP));
+
+    if(novo==NULL){
+        printf("Erro ao alocar memória\n");
+        return -1;
+    }
+    novo->info=aux_info;
+    novo->anterior=NULL;
+    novo->seguinte=NULL;
+    if(*fimlista==NULL){
+        *inilista=novo;
+        *fimlista=novo;
+    }
+    else{
+        novo->anterior=*fimlista;
+        (*fimlista)->seguinte=novo;
+        *fimlista=novo;
+    }
+    return 0;
+}
+//************************************************************
+
+
+//************************************************************
 //                      Limpar Lista
 //************************************************************
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista){

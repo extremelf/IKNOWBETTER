@@ -4,8 +4,7 @@
 
 #include "gestaoPerguntas.h"
 
-int geradorPerguntas(ELEMENTOP *iniLista, ELEMENTOP *fimLista,int totperguntas){
-    int *perguntasJogo[totperguntas];
+void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totperguntas){
     int posicoes[totperguntas];
     int posicaorand=0;
     int cont=0,i=0,j=0,k=0,check=0;
@@ -37,9 +36,32 @@ int geradorPerguntas(ELEMENTOP *iniLista, ELEMENTOP *fimLista,int totperguntas){
         while((aux->info.indice)!=(posicoes[i])){
             aux=aux->seguinte;
         }
-        perguntasJogo[k]=aux;
-        k++;
+        inserirFimListaPerguntas(&iniLista,&fimLista,aux->info);
         i++;
     }while(k!=totperguntas && i!=totperguntas);
-    return perguntasJogo[];
+
+
+}
+
+void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
+    int posicao=0;
+    int contador=0;
+    FILE *fp=NULL;
+    PERGUNTA perguntas[100];
+
+    fp=fopen("perguntas.dat","rb");
+    if(fp==NULL){
+        printf("Erro a abrir o ficheiro\n");
+        return;
+    }
+    while(1){
+        fread(&perguntas[posicao],sizeof(perguntas),1,fp);
+        if(feof(fp)){
+            break;
+        }
+        posicao++;
+    }
+    for(contador=0;contador<100;contador++){
+        inserirFimListaPerguntas(&iniLista,&fimLista,perguntas[contador]);
+    }
 }
