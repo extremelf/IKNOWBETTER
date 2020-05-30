@@ -31,13 +31,18 @@ int menu_user() {
     printf("*******MENU*************\n");
     printf("******1-ACESSAR CONTA***\n");
     printf("******2-REGISTAR*******\n");
+    printf("******3-JOGAR**********\n");
     printf("******0-SAIR***********\n");
     scanf("%i", &opc);
     return opc;
 }
 
 void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas){
-    int jogada;
+    int jogada=0,i=0;
+    char carater;
+    char resposta[100];
+    int caixa=900;
+
     ELEMENTOP *aux=NULL;
 
     aux=iniListaPerguntas2;
@@ -46,6 +51,11 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
     //FODEUUUUUUUUU!!!! XD
     //Não sei que raio fazer
 
+    for(i=0;i<2;i++){
+        printf("Introduza o carater de jogo do jogador %i",i+1);
+        scanf(" %c",&user[i]->info.carater);
+    }
+
     for(jogada=0;jogada<totPerguntas+1;jogada++){
         if(aux->info.tipoPergunta==1){
             printf(" %s\n %s\t %s\n %s\t %s",aux->info.pergunta,aux->info.respostas[0],
@@ -53,8 +63,12 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
         }
         if(aux->info.tipoPergunta==2){
             printf(" %s\n Resposta:",aux->info.respostas[4]);
-
         }
+        scanf(" %c", &carater);
+
+        printf("Qual a resposta:\n");
+        scanf(" %100[^\n]s", resposta);
+
     }
 
 
@@ -63,7 +77,8 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
 int main() {
     int nPerguntas=0;
     int opc1=0, opc2=0;
-    int i;
+    int i=0;
+
     USER newUser;
     ELEMENTO *iniListaUser=NULL, *fimListaUser=NULL;
     ELEMENTO *user[2];
@@ -86,16 +101,16 @@ int main() {
                         do{
                             do{
                                 printf("Jogador %i:\n",i+1);
-                                user[i]=login(iniListaUser,fimListaUser);
+                                user[i]=login(iniListaUser);
                             }while(user[i]==NULL);
                             i++;
-                        }while(i!=2 && user[1]==NULL && user[2]==NULL);
+                        }while(i!=2 && user[0]==NULL && user[1]==NULL);
 
                         break;
                     }
                     case 2:{
                         newUser=registarUser();
-                        inserirFimLista(iniListaUser,fimListaUser,newUser);
+                        inserirFimLista(&iniListaUser,&fimListaUser,newUser);
                         break;
                     }
                     case 3:{

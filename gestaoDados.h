@@ -21,7 +21,7 @@ typedef struct util{
     char nome[100];
     char username[30];
     char passwd[30];
-    char carater[1];
+    char carater;
     int idade;
     char nacionalidade[100];
     int isAdmin;
@@ -36,8 +36,8 @@ typedef struct elem{
 
 typedef struct perguntas{
     int indice;
-    char pergunta[100];
-    char respostas[4][100];
+    char pergunta[300];
+    char respostas[5][300];
     char correta[100];
     int tipoPergunta;
 }PERGUNTA;
@@ -52,7 +52,7 @@ int gravarEmFicheiro(ELEMENTO *inilista,int totregistos);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 int loginUser (USER users[], int totregistos);
-ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista);
+ELEMENTO *login(ELEMENTO *iniLista);
 void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totperguntas);
 int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
 void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);

@@ -49,7 +49,7 @@ void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
     FILE *fp=NULL;
     PERGUNTA perguntas[100];
 
-    fp=fopen("perguntas.dat","rb");
+    fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\perguntas.dat","rb");
     if(fp==NULL){
         printf("Erro a abrir o ficheiro\n");
         return;

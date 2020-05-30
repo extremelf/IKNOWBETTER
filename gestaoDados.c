@@ -49,49 +49,15 @@ void limparListaUser(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
 }
 //************************************************************
 
-//*********************************************************
-// LOGIN USER
-//*********************************************************
-int loginUser (USER users[], int totregistos){
-    char utili[30];
-    char senha[30];
-    int aux, id=-1; //-1 começa do anterior e vai "escalando"
-
-    printf("Introduza o sue username:\n");
-    fflush(stdin);
-    gets(utili);
-    for(aux=0;aux<totregistos;aux++){
-        if(strcmp(users[aux].username,utili)==0){
-            id=aux;
-        }
-
-    }
-    //1 via equivale verdadeiro
-    if(id==1){
-        printf("Esse utilizador não está registado\n");
-        return -1;
-    }
-        printf("Introduza a password:\n");
-        fflush(stdin);
-         gets(senha); //FALTA ENCRIPTAR
-    if( strcmp(users[id].senha, senha)!=0){  // comparar as senhas para verificar se é a correta no utilizador inserido
-        printf("A senha não corresponde ao utilizador inserido"\n);
-     return -1;
-    }
-    if(users[id].isAdmin==1){
-        printf("Administrador não está autorizado a jogar\n");
-        return -1
-    }
-    return id;  //retornar ao usuario
-}
 
 
 //************************************************************
+//                 Login de utilizador existente
 //************************************************************
-ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista){
+ELEMENTO *login(ELEMENTO *iniLista){
     char user[30], passw[100];
     ELEMENTO *aux=NULL;
-    int check=0, tentativas=3;
+    int tentativas=3;
 
     printf("Introduza o nome de utilizador:\n");
     scanf(" %30[^\n]s",user);
@@ -107,15 +73,13 @@ ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista){
         scanf(" %100[^\n]s",passw);
         if(strcmp(aux->info.passwd,passw)==0){
             printf("Password Correta\n");
-            check=1;
             return aux;
         }
         else{
             tentativas--;
             printf("Password incorreta - %i tentativas restantes\n",tentativas);
-            check=0;
         }
-    }while(check!=1 || tentativas<0);
+    }while(tentativas<0);
     return NULL;
 }
 //************************************************************
