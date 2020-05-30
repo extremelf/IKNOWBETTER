@@ -1,138 +1,128 @@
 //
 // Created by Luis on 30/04/2020.
 //
-#include <stdlib.h>
 
 #include "gestaoDados.h"
 
-//***********************************************************
-//             Registo Usuario
-//**********************************************************
-int recebeDados(USER users[], int totregistos){
-    printf("Introduza o nome: \n");
-    fflush(stdin);
-    fgets(users[totregistos].nome, 100, stdin);
-    users[totregistos].nome[strlen(users[totregistos].nome)-1]='\0';
-    printf ("Introduza um user:\n");
-    fflsuh(stdin);
-    fgets(users[totregistos].username, 30, stdin);
-    users[totregistos].username[strlen(users[totregistos].username)-1]='\0';
-    printf("Insira a senha:\n");
-    //faltapartedasenha
-    printf("Idade atual:\n");
-    scanf("%i", &users[totregistos].idade);
-    printf("Introduza a sua nacionalidade:\n");
-    fflush(stdin);
-    fgets(users[totregistos].nacionalidade, 100,stdin);
-    users[totregistos].nacionalidade[strlen(users[tot].nacionalidade)-1]='\0'
-    printf("Pretende ser administrador?");
-    fflush(stdin);
-    scanf("%i",&users[totregistos].isAdmin);
-    if (users[totregistos].isAdmin!=1 && users[totregistos].isAdmin!=2) {  //Verification of admin
-        printf(" Apenas pode colocar 1 ou 0\n");
-        return totregistos; //if error return the same number
-    }
-        } else {
-        users[totregistos].isAdmin=1;
-    }
-        printf("Registo efetuado com sucesso %s\n",users[totregistos].username);
-        if (users[totregistos].isAdmin==1) {
-        printf("Es administrador\n");
-    }
-        users[totregistos].coins=0;
-        return (totregistos+1);
-}
+//************************************************************
+//                     Guardar Fim da lista User
+//************************************************************
+int inserirFimListaUser(ELEMENTO **iniListaUser,ELEMENTO **fimListaUser, USER aux_info){
+    ELEMENTO *novo=NULL;
+    novo=(ELEMENTO *)calloc(1,sizeof(ELEMENTO));
 
-
-
-}
-
-//*********************************************************
-// LOGIN ADMINISTRADOR
-//********************************************************
-int checkAdmin (USER users[],int totregistos) {
-    char username[50];
-    char password[50];
-    int x,id=-1;
-
-    printf("Introduza o seu username:\n");
-    fflush(stdin);
-    gets(utilizador);
-    for (x=0;x<totalr;x++) {
-        if (strcmp(users[x].nick,utilizador)==0) {
-            id=x;
-        }
-    }
-    if (id==-1) {
-        printf("O utilizador não está registado\n");
-        return 0;
-    }
-    printf("Introduza a Password:\n");
-    fflush(stdin);
-    gets(password);
-
-    if (strcmp(users[id].password,password)!=0) {
-        printf("A password não corresponde\n");
+    if(novo==NULL){
+        printf("Erro ao alocar memória\n");
         return -1;
     }
-    if (users[id].isAdmin==1) {
-        printf("Bem Vindo Administrador %s\n",users[id].username);
-        return 1;
-    } else {
-        printf("Não é administrador");
-        return login;
+    novo->info=aux_info;
+    novo->anterior=NULL;
+    novo->seguinte=NULL;
+    if(*fimListaUser==NULL){
+        *iniListaUser=novo;
+        *fimListaUser=novo;
     }
+    else{
+        novo->anterior=*fimListaUser;
+        (*fimListaUser)->seguinte=novo;
+        *fimListaUser=novo;
+    }
+    return 0;
 }
+//************************************************************
 
+//************************************************************
+//                      Limpar Lista User
+//************************************************************
+void limparListaUser(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
+    ELEMENTO *aux, *proximo;
 
+    aux=*iniListaUser;
+    while(aux!=NULL){
+        proximo=aux->seguinte;
+        free(aux);
+        aux=proximo;
+    }
+    *iniListaUser=NULL;
+    *fimListaUser=NULL;
+    free(proximo);
+}
+//************************************************************
 
 //*********************************************************
 // LOGIN USER
 //*********************************************************
+int loginUser (USER users[], int totregistos){
+    char utili[30];
+    char senha[30];
+    int aux, id=-1; //-1 começa do anterior e vai "escalando"
 
-void login_user(USER users, int totregistos){
-        char username[50];
-        char password[50];
-        int i;
+    printf("Introduza o sue username:\n");
+    fflush(stdin);
+    gets(utili);
+    for(aux=0;aux<totregistos;aux++){
+        if(strcmp(users[aux].username,utili)==0){
+            id=aux;
+        }
 
-                printf("Introduza o username : \n");
-//gets(username);
-//fflush(stdin);
-//scanf("%s",username);
-
-printf("Introduza a senha : \n");
-fflsuh(stdin);
-fgets(users[totregistos].username, 30, stdin);
-users[totregistos].username[strlen(users[totregistos].username)-1]='\0';
-/* Aceitar senha */
-
-
-for(i=0;i<8;i++)
-{
-password[i]=getch();
-printf("*");
-}
-password[i]='\0';
-
-/*------------------*/
-
-printf("\n\n Digite em qualque tecla");
-getch();
-
-if(!strcmp(username,"") && !strcmp(password,""))
-{
-printf("\n\n Login efetuado com sucesso");
-}else
-{
-printf("\n\n Senha incorreta");
-}
-if (users[id].isAdmin==1) {
-        printf("Como e administrador nao pode jogar\n");
+    }
+    //1 via equivale verdadeiro
+    if(id==1){
+        printf("Esse utilizador não está registado\n");
         return -1;
     }
-/*  return game;                  FALTA RETURNNNNNN                              FALTA!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
-
+        printf("Introduza a password:\n");
+        fflush(stdin);
+         gets(senha); //FALTA ENCRIPTAR
+    if( strcmp(users[id].senha, senha)!=0){  // comparar as senhas para verificar se é a correta no utilizador inserido
+        printf("A senha não corresponde ao utilizador inserido"\n);
+     return -1;
+    }
+    if(users[id].isAdmin==1){
+        printf("Administrador não está autorizado a jogar\n");
+        return -1
+    }
+    return id;  //retornar ao usuario
 }
+
+
+//************************************************************
+//************************************************************
+ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista){
+    char user[30], passw[100];
+    ELEMENTO *aux=NULL;
+    int check=0, tentativas=3;
+
+    printf("Introduza o nome de utilizador:\n");
+    scanf(" %30[^\n]s",user);
+
+    aux=iniLista;
+
+    while(strcmp(aux->info.username,user)!=0){
+    aux=aux->seguinte;
+    }
+
+    do{
+        printf("Introduza a password:\n");
+        scanf(" %100[^\n]s",passw);
+        if(strcmp(aux->info.passwd,passw)==0){
+            printf("Password Correta\n");
+            check=1;
+            return aux;
+        }
+        else{
+            tentativas--;
+            printf("Password incorreta - %i tentativas restantes\n",tentativas);
+            check=0;
+        }
+    }while(check!=1 || tentativas<0);
+    return NULL;
+}
+//************************************************************
+
+
+
+
 
 //************************************************************
 //                     Guardar Fim da lista
@@ -160,6 +150,34 @@ int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info){
     return 0;
 }
 //************************************************************
+
+//************************************************************
+//                     Guardar Fim da lista Perguntas
+//************************************************************
+int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info){
+    ELEMENTOP *novo=NULL;
+    novo=(ELEMENTOP *)calloc(1,sizeof(ELEMENTOP));
+
+    if(novo==NULL){
+        printf("Erro ao alocar memória\n");
+        return -1;
+    }
+    novo->info=aux_info;
+    novo->anterior=NULL;
+    novo->seguinte=NULL;
+    if(*fimlista==NULL){
+        *inilista=novo;
+        *fimlista=novo;
+    }
+    else{
+        novo->anterior=*fimlista;
+        (*fimlista)->seguinte=novo;
+        *fimlista=novo;
+    }
+    return 0;
+}
+//************************************************************
+
 
 //************************************************************
 //                      Limpar Lista
@@ -200,3 +218,25 @@ int gravarEmFicheiro(ELEMENTO *inilista,int totregistos) {
 
     return 0;
 }
+//************************************************************
+
+//************************************************************
+//                      Obter tempo atual
+//************************************************************
+DATA getdate(){
+    DATA atual;
+    struct timeval usec_time;
+    time_t now = time(0);
+    gettimeofday(&usec_time,NULL);
+
+    struct tm *current = localtime(&now);
+    atual.ano=current->tm_year+1900;
+    atual.mes=current->tm_mon+1;
+    atual.dia=current->tm_mday;
+
+    return atual;
+}
+//************************************************************
+
+
+

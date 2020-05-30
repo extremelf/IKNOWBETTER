@@ -14,7 +14,7 @@ int menu_arranque () {
 //SE O UTILIZADOR PRETENDER JOGAR PASSA ENTÃO AO SEGUINTE MENU(UTILIZANDO O STRUCT)
 
 int menu_user() {
-    int op=0;
+    int opc=0;
     printf("*******MENU*************\n");
     printf("******1-ACESSAR CONTA***\n");
     printf("******2-REGISTAR*******\n");
