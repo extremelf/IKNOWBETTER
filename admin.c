@@ -4,48 +4,7 @@
 #include "gestaoDados.h"
 
 
-//*****************************************************
-//LISTAR UTILIZADORES
-//*****************************************************
-void listUsers(USER users[], int totregistos){
-    int i;
 
-    if (totregistos==0) {
-        printf("Não ha utilizadores\n");
-        return;
-    }
-
-    for (i=0;i<totregistos;i++) {
-        printf("Nome: %s\n username: %s \n idade: %s \n  nacionalidade: %s \n ",users[i].nome,users[i].username,users[i].idade, users[i].nacionalidade);
-        if (users[i].isAdmin==1) {
-            printf("E Administrador\n");
-        } else {
-            printf("E Jogador\n");
-        }
-    }
-}
-
-
-
-//********************************************************
-// Listar por ordem alfabetica
-//********************************************************
-void ordenaPorNome(USER users[], int totregistos, int tam){
-    int i,j,mudar=1;
-    USER aux;
-    mudar=0;
-    for (x=0;x<tam && mudar=0;x++) {
-        mudar=1;
-        for (i=0;i<tam-1;i++) {
-            if (stricmp(users[i].nome,users[i+1].nome)>0) {
-                aux=users[i];
-                users[i]=users[i+1];
-                users[i+1]=aux;
-                mudar=0;
-            }
-        }
-    }
-}
 
 //**************************************************
 //PAINEL
@@ -78,7 +37,9 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                     alterarlista(iniLista);
                     break;
                 case 4:
-                    remover(&inilista, &fimlista);
+                    remover(&inilista, &fimlista, totperguntas);
+
+                    removerP (ELEMENTOP **inilista, ELEMENTO **fimlista)
                     break;
                 case 5:ordenaPorNome(USER users[], int totregistos, int tam);
                     listUsers(users,utotal)
@@ -91,14 +52,15 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                     limparLista(&inilista, &fimlista);
                     break;
                 default:
+                    //libertar memoria!
                     printf("Escolha uma opção entre 1 e 6\n");
             }
         } while (opc != 0);
-    } else {
-        printf("Não é o administrador\0");
+    }
     }
 
 
 
 
-}
+
+

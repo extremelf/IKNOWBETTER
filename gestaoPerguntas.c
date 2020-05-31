@@ -8,10 +8,11 @@ void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totpergunta
     int posicoes[totperguntas];
     int posicaorand=0;
     int cont=0,i=0,j=0,k=0,check=0;
+    
     ELEMENTOP *aux=NULL;
 
     do{
-        posicaorand=rand()%totperguntas;
+        posicaorand=srand()%totperguntas;
 
         for(j=0;j<totperguntas;j++){
             if(posicaorand==posicoes[j]){

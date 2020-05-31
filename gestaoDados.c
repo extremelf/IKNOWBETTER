@@ -29,7 +29,7 @@ int inserirFimListaUser(ELEMENTO **iniListaUser,ELEMENTO **fimListaUser, USER au
     }
     return 0;
 }
-//************************************************************
+
 
 //************************************************************
 //                      Limpar Lista User
@@ -47,7 +47,50 @@ void limparListaUser(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
     *fimListaUser=NULL;
     free(proximo);
 }
-//************************************************************
+
+
+//*****************************************************
+//LISTAR UTILIZADORES
+//*****************************************************
+void listUsers(USER users[], int totregistos){
+    int i;
+
+    if (totregistos==0) {
+        printf("Não ha utilizadores\n");
+        return;
+    }
+
+    for (i=0;i<totregistos;i++) {
+        printf("Nome: %s\n username: %s \n idade: %s \n  nacionalidade: %s \n ",users[i].nome,users[i].username,users[i].idade, users[i].nacionalidade);
+        if (users[i].isAdmin==1) {
+            printf("E Administrador\n");
+        } else {
+            printf("E Jogador\n");
+        }
+    }
+}
+
+
+
+//********************************************************
+// Listar por ordem alfabetica
+//********************************************************
+void ordenaPorNome(USER users[], int totregistos, int tam){
+    int i,j,mudar=1;
+    USER aux;
+    mudar=0;
+    for (x=0;x<tam && mudar=0;x++) {
+        mudar=1;
+        for (i=0;i<tam-1;i++) {
+            if (stricmp(users[i].nome,users[i+1].nome)>0) {
+                aux=users[i];
+                users[i]=users[i+1];
+                users[i+1]=aux;
+                mudar=0;
+            }
+        }
+    }
+}
 
 //*********************************************************
 // LOGIN USER
@@ -87,8 +130,9 @@ int loginUser (USER users[], int totregistos){
 
 
 //************************************************************
+// LOGIN
 //************************************************************
-ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista){
+USER *login (USER *iniLista, USER *fimLista){
     char user[30], passw[100];
     ELEMENTO *aux=NULL;
     int check=0, tentativas=3;
@@ -118,10 +162,6 @@ ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista){
     }while(check!=1 || tentativas<0);
     return NULL;
 }
-//************************************************************
-
-
-
 
 
 //************************************************************
@@ -196,6 +236,55 @@ void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista){
     free(proximo);
 }
 //************************************************************
+// REMOVER PERGUNTA
+//***********************************************************
+
+void removerP (ELEMENTOP **inilista, ELEMENTO **fimlista, ELEMENTO totperguntas) {
+    PERGUNTA  *aux=NULL; char perg;
+
+    if(*inilista==NULL) {
+        printf("lista vazia\n");return -1;
+    }
+
+    printf("Insira a  pergunta\n");
+    fflush(stdin);
+    scanf("%c",&perg);
+
+    aux=*inilista;
+
+    while(aux!=NULL && aux->nodo.perg!=perg) {
+        aux=aux->seguinte;
+    }
+
+    if(aux==NULL){
+        printf("Número não existe\n");
+        return -1;
+    }
+
+    if(aux->anterior==NULL) {
+        *inilista=aux->seguinte;
+        if(*inilista!=NULL) {
+            (*inilista)->anterior=NULL;
+        }
+    } else{
+        aux->anterior->seguinte=aux->seguinte;
+    }
+
+    if(aux->seguinte==NULL) {
+        *fimlista=aux->anterior;
+        if(*fimlista!=NULL){
+            (*fimlista)->seguinte=NULL;
+        }
+    } else{
+        aux->seguinte->anterior=aux->anterior;
+    }
+    free(aux);
+    return;
+}
+
+
+
+
 
 //************************************************************
 //                      Guardar em ficheiro

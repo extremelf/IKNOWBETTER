@@ -36,7 +36,7 @@ int menu_user() {
     return opc;
 }
 
-void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas){
+void jogada(ELEMENTO *user[],ELEMENTO *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas){
     int jogada;
     ELEMENTOP *aux=NULL;
 

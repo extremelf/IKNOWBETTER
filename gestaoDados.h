@@ -52,8 +52,9 @@ int gravarEmFicheiro(ELEMENTO *inilista,int totregistos);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 int loginUser (USER users[], int totregistos);
-ELEMENTO *login(ELEMENTO *iniLista, ELEMENTO *fimLista);
+USER *login (USER *iniLista, USER *fimLista);
 void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totperguntas);
-int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
+void removerP (ELEMENTOP **inilista, ELEMENTO **fimlista, ELEMENTO totperguntas);
+        int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
 void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);
 #endif //PROJETO_GESTAODADOS_H
