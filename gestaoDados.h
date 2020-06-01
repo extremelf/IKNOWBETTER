@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <conio.h>
+
 
 
 typedef struct data{
@@ -17,7 +17,7 @@ typedef struct data{
     int ano;
 }DATA;
 
-typedef struct util{
+typedef struct utilizador{
     char nome[100];
     char username[30];
     char passwd[30];
@@ -25,6 +25,7 @@ typedef struct util{
     int idade;
     char nacionalidade[100];
     int isAdmin;
+    float dinheiro;
     DATA ultima;
 }USER;
 
@@ -48,7 +49,7 @@ typedef struct elemp{
     struct elemp *anterior;
 }ELEMENTOP;
 void painelAdmin(USER users[], int totregistos);
-int gravarEmFicheiro(ELEMENTO *inilista,int totregistos);
+int gravarEmFicheiro(ELEMENTO *inilista);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 int loginUser (USER users[], int totregistos);
@@ -56,4 +57,6 @@ ELEMENTO *login(ELEMENTO *iniLista);
 void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totperguntas);
 int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
 void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);
+void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser);
+void listarPerguntas(ELEMENTOP *iniLista);
 #endif //PROJETO_GESTAODADOS_H

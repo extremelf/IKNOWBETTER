@@ -2,6 +2,7 @@
 // Created by Luis on 30/04/2020.
 //
 
+#include <sys/time.h>
 #include "gestaoDados.h"
 
 //************************************************************
@@ -64,8 +65,12 @@ ELEMENTO *login(ELEMENTO *iniLista){
 
     aux=iniLista;
 
-    while(strcmp(aux->info.username,user)!=0){
-    aux=aux->seguinte;
+    while((strcmp(aux->info.username,user)!=0) && aux!=NULL){
+        aux=aux->seguinte;
+    }
+    if(aux==NULL){
+        printf("Utilizador inexistente\n");
+        return aux;
     }
 
     do{
@@ -79,7 +84,7 @@ ELEMENTO *login(ELEMENTO *iniLista){
             tentativas--;
             printf("Password incorreta - %i tentativas restantes\n",tentativas);
         }
-    }while(tentativas<0);
+    }while(tentativas>0);
     return NULL;
 }
 //************************************************************
@@ -164,16 +169,16 @@ void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista){
 //************************************************************
 //                      Guardar em ficheiro
 //************************************************************
-int gravarEmFicheiro(ELEMENTO *inilista,int totregistos) {
+int gravarEmFicheiro(ELEMENTO *inilista) {
     ELEMENTO *aux = NULL;
     FILE *fp = NULL;
-    fp = fopen("utilizadores.dat", "wb");
+    fp = fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat", "wb");
 
     if (fp == NULL) {
         printf("Erro ao criar ficheiro\n");
         return -1;
     }
-    fwrite(totregistos, sizeof(int), 1, fp);
+    //fwrite(totregistos, sizeof(int), 1, fp);
     for (aux = inilista; aux != NULL; aux = aux->seguinte) {
         fwrite(&(aux->info), sizeof(USER), 1, fp);
     }
@@ -202,5 +207,38 @@ DATA getdate(){
 }
 //************************************************************
 
+//************************************************************
+//Lê cada utilizador em ficheiro
+//************************************************************
+void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
+    FILE *fp=NULL;
+    USER aux;
+    fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat","rb");
+    if(fp==NULL){
+        fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat","wb");
+        fclose(fp);
+        fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat","rb");
+    }
+        while(1){
+            fread(&aux,sizeof(USER),1,fp);
+            inserirFimListaUser(iniListaUser,fimListaUser,aux);
+            if(feof(fp)){
+                break;
+            }
+        }
+        fclose(fp);
+}
+//************************************************************
 
+//************************************************************
+// Listar perguntas lidas do ficheiro
+//************************************************************
+void listarPerguntas(ELEMENTOP *iniLista){
+    ELEMENTOP *aux=NULL;
 
+    for(aux=iniLista;aux!=NULL;aux=aux->seguinte){
+        printf(" %s\n %s\t %s\n %s\t %s\n",aux->info.pergunta,aux->info.respostas[0],
+               aux->info.respostas[1],aux->info.respostas[2],aux->info.respostas[3]);
+    }
+}
+//************************************************************
