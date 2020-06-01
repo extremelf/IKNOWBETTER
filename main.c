@@ -90,6 +90,7 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
                         aux2[1]->info.dinheiro+=300;
                     }
                     else{
+
                         caixa+=300;
                     }
                 }
