@@ -47,7 +47,7 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                 case 6:
                     listUser(users, totregistos);
                     break;
-                    case 0:
+                case 0:
                     escreverPerg(inilista, fimlista);
                     limparLista(&inilista, &fimlista);
                     break;

@@ -55,6 +55,6 @@ int loginUser (USER users[], int totregistos);
 USER *login (USER *iniLista, USER *fimLista);
 void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totperguntas);
 void removerP (ELEMENTOP **inilista, ELEMENTO **fimlista, ELEMENTO totperguntas);
-        int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
+int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
 void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);
 #endif //PROJETO_GESTAODADOS_H
