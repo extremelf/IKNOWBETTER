@@ -37,9 +37,9 @@ void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totpergunta
         while((aux->info.indice)!=(posicoes[i])){
             aux=aux->seguinte;
         }
-        inserirFimListaPerguntas(&iniLista,&fimLista,aux->info);
+        inserirFimListaPerguntas(iniLista,fimLista,aux->info);
         i++;
-    }while(k!=totperguntas && i!=totperguntas);
+    }while(i!=totperguntas);
 
 
 }
@@ -50,7 +50,7 @@ void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
     FILE *fp=NULL;
     PERGUNTA perguntas[100];
 
-    fp=fopen("perguntas.dat","rb");
+    fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\perguntas.dat","rb");
     if(fp==NULL){
         printf("Erro a abrir o ficheiro\n");
         return;
@@ -63,6 +63,7 @@ void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
         posicao++;
     }
     for(contador=0;contador<100;contador++){
-        inserirFimListaPerguntas(&iniLista,&fimLista,perguntas[contador]);
+        inserirFimListaPerguntas(iniLista,fimLista,perguntas[contador]);
     }
+    //free(perguntas);
 }
