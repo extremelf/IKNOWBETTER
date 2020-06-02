@@ -48,7 +48,9 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                     listUser(users, totregistos);
                     break;
                 case 0:
-                    escreverPerg(inilista, fimlista);
+                    printf("Sair da parte Administrativa")
+
+
                     limparLista(&inilista, &fimlista);
                     break;
                 default:
