@@ -11,6 +11,7 @@
 
 
 
+
 typedef struct data{
     int dia;
     int mes;
@@ -51,12 +52,17 @@ typedef struct elemp{
 void painelAdmin(USER users[], int totregistos);
 int gravarEmFicheiro(ELEMENTO *inilista);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
+int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
+
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
+void limparListaPerguntas(ELEMENTOP **inilista, ELEMENTOP **fimlista);
+
 int loginUser (USER users[], int totregistos);
 ELEMENTO *login(ELEMENTO *iniLista);
-void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totperguntas);
-int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
+void geradorPerguntas(ELEMENTOP *iniLista1, ELEMENTOP **iniLista2, ELEMENTOP **fimLista2,int totperguntas);
+
 void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);
 void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser);
+
 void listarPerguntas(ELEMENTOP *iniLista);
 #endif //PROJETO_GESTAODADOS_H

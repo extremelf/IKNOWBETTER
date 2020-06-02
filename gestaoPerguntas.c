@@ -4,65 +4,64 @@
 
 #include "gestaoPerguntas.h"
 
-void geradorPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista,int totperguntas){
-    int posicoes[totperguntas];
-    int posicaorand=0;
-    int cont=0,i=0,j=0,k=0,check=0;
+void geradorPerguntas(ELEMENTOP *iniLista1, ELEMENTOP **iniLista2, ELEMENTOP **fimLista2,int totperguntas){
+    int list[9], vetor[totperguntas];
+    int cont=0,i=0,j=0,k=0,check=1;
     ELEMENTOP *aux=NULL;
 
-    do{
-        posicaorand=rand()%totperguntas;
+    for (i = 0; i < 9; i++) {
+        list[i] = i;
+    }
+    for (i = 0; i < totperguntas; i++) {
+        int j = i + rand() % (9 - i);
+        int temp = list[i];
+        list[i] = list[j];
+        list[j] = temp;
 
-        for(j=0;j<totperguntas;j++){
-            if(posicaorand==posicoes[j]){
-                check=0;
-                break;
-            }
-            else{
-                check=1;
-            }
-        }
+        vetor[i] = list[i];
+    }
 
-        if(check==1){
-            posicoes[i]=posicaorand;
-            i++;
-            cont++;
-        }
 
-    }while(cont!=totperguntas || check!=1);
+    for(i=0;i<totperguntas;i++){
+        printf("poisção:%i\n",vetor[i]);
+    }
 
     do{
-        aux=iniLista;
-        while((aux->info.indice)!=(posicoes[i])){
+        printf("Começou ciclo\n");
+        aux=iniLista1;
+
+        while((aux->info.indice)!=(vetor[i])){
             aux=aux->seguinte;
+            printf("aux errado %i\n", aux->info.indice);
         }
-        inserirFimListaPerguntas(iniLista,fimLista,aux->info);
-        i++;
+
+        if(aux->info.indice==vetor[i]){
+            printf("guardou na lista\n");
+            inserirFimListaPerguntas(&iniLista2,&fimLista2,aux->info);
+            i++;
+        }
+
     }while(i!=totperguntas);
-
-
 }
 
+//************************************************************
+//                      Ler Perguntas de ficheiro
+//************************************************************
 void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
-    int posicao=0;
-    int contador=0;
     FILE *fp=NULL;
-    PERGUNTA perguntas[100];
+    PERGUNTA pergunta;
 
-    fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\perguntas.dat","rb");
+    fp=fopen("perguntas.dat","rb");
     if(fp==NULL){
         printf("Erro a abrir o ficheiro\n");
         return;
     }
     while(1){
-        fread(&perguntas[posicao],sizeof(perguntas),1,fp);
+        fread(&pergunta,sizeof(pergunta),1,fp);
+        inserirFimListaPerguntas(iniLista,fimLista,pergunta);
         if(feof(fp)){
             break;
         }
-        posicao++;
     }
-    for(contador=0;contador<100;contador++){
-        inserirFimListaPerguntas(iniLista,fimLista,perguntas[contador]);
-    }
-    //free(perguntas);
 }
+//************************************************************

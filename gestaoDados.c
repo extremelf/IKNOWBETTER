@@ -165,6 +165,23 @@ void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista){
     free(proximo);
 }
 //************************************************************
+//************************************************************
+//                      Limpar Lista Perguntas
+//************************************************************
+void limparListaPerguntas(ELEMENTOP **inilista, ELEMENTOP **fimlista){
+    ELEMENTOP *aux, *proximo;
+
+    aux=*inilista;
+    while(aux!=NULL){
+        proximo=aux->seguinte;
+        free(aux);
+        aux=proximo;
+    }
+    *inilista=NULL;
+    *fimlista=NULL;
+    free(proximo);
+}
+//************************************************************
 
 //************************************************************
 //                      Guardar em ficheiro
@@ -172,7 +189,7 @@ void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista){
 int gravarEmFicheiro(ELEMENTO *inilista) {
     ELEMENTO *aux = NULL;
     FILE *fp = NULL;
-    fp = fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat", "wb");
+    fp = fopen("utilizadores.dat", "wb");
 
     if (fp == NULL) {
         printf("Erro ao criar ficheiro\n");
@@ -213,11 +230,11 @@ DATA getdate(){
 void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
     FILE *fp=NULL;
     USER aux;
-    fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat","rb");
+    fp=fopen("utilizadores.dat","rb");
     if(fp==NULL){
-        fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat","wb");
+        fp=fopen("utilizadores.dat","wb");
         fclose(fp);
-        fp=fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat","rb");
+        fp=fopen("utilizadores.dat","rb");
     }
         while(1){
             fread(&aux,sizeof(USER),1,fp);
@@ -237,7 +254,7 @@ void listarPerguntas(ELEMENTOP *iniLista){
     ELEMENTOP *aux=NULL;
 
     for(aux=iniLista;aux!=NULL;aux=aux->seguinte){
-        printf(" %s\n %s\t %s\n %s\t %s\n",aux->info.pergunta,aux->info.respostas[0],
+        printf(" %i - %s\n %s\t %s\n %s\t %s\n",aux->info.indice,aux->info.pergunta,aux->info.respostas[0],
                aux->info.respostas[1],aux->info.respostas[2],aux->info.respostas[3]);
     }
 }

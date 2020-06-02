@@ -52,21 +52,27 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
     //FODEUUUUUUUUU!!!! XD
     //Não sei que raio fazer
     for(i=0;i<2;i++){
-        printf("Introduza o carater de jogo do jogador %i",i+1);
+        printf("Introduza o carater de jogo do jogador %i - %s :",i+1,user[i]->info.username);
         scanf(" %c",&user[i]->info.carater);
     }
 
     for(jogada=0;jogada<totPerguntas+1;jogada++){
-        if(aux->info.tipoPergunta==1){
-            printf(" %s\n %s\t %s\n %s\t %s",aux->info.pergunta,aux->info.respostas[0],
-                   aux->info.respostas[1],aux->info.respostas[2],aux->info.respostas[3]);
+        switch(aux->info.tipoPergunta){
+            case 1:{
+                printf(" %s\n %s\t %s\n %s\t %s",aux->info.pergunta,aux->info.respostas[0],
+                       aux->info.respostas[1],aux->info.respostas[2],aux->info.respostas[3]);
+                break;
+            }
+            case 2:{
+                printf(" %s\n Resposta:",aux->info.respostas[4]);
+                break;
+            }
         }
-        if(aux->info.tipoPergunta==2){
-            printf(" %s\n Resposta:",aux->info.respostas[4]);
-        }
-        printf("Jogador a responder:");
+
+        printf("\nJogador a responder:");
         carater=getchar();
-        if(user[0]->info.carater==carater){
+
+        if(strcmp(user[0]->info.carater,carater)){
             aux2[0]=user[0];
             aux2[1]=user[1];
         }
@@ -74,6 +80,7 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
             aux2[0]=user[1];
             aux2[1]=user[0];
         }
+
         switch(aux->info.tipoPergunta){
             case 1:{
                 printf("Jogador %s a responder:\n",aux2[0]->info.username);
@@ -160,7 +167,9 @@ int main() {
 
     lerPerguntas(&iniListaPerguntas,&fimListaPerguntas);
     lerUserEmFicheiro(&iniListaUser,&fimListaUser);
-    //listarPerguntas(iniListaPerguntas);
+    listarPerguntas(iniListaPerguntas);
+
+    srand(time(NULL));
 
     do{
         opc1=menu_arranque();
@@ -176,7 +185,11 @@ int main() {
                                     user[i]=login(iniListaUser);
                                 }while(user[i]==NULL);
                                 i++;
-                            }while(i!=2 && user[0]==NULL && user[1]==NULL);
+                                if(user[1]==user[0]){
+                                    printf("Utilizador já logado\n");
+                                    user[1]==NULL;
+                                }
+                            }while(user[0]==NULL || user[1]==NULL);
 
                             break;
                         }
@@ -187,14 +200,19 @@ int main() {
                             break;
                         }
                         case 3:{
-                            printf("Introduza a quantidade de perguntas a jogar:\n");
-                            scanf("%i",&nPerguntas);
-                            geradorPerguntas(&iniListaPerguntas2,&fimListaPerguntas2,nPerguntas);
-                            printf("SIM");
-                            jogada(user,iniListaPerguntas2,fimListaPerguntas2,nPerguntas);
-
+                            if(user[0]==NULL || user[1]==NULL){
+                                printf("Sem utilizadores com sessão iniciada\n");
+                                break;
+                            }
+                            else{
+                                //estou com uns problemas na ultima parte do gerador de perguntas, não te assustes com a quantidade de printf, é para ver onde falha
+                                //printf("Introduza a quantidade de perguntas a jogar:\n");
+                                //scanf("%i",&nPerguntas);
+                                //geradorPerguntas(iniListaPerguntas,&iniListaPerguntas2,&fimListaPerguntas2,nPerguntas);
+                                jogada(user,iniListaPerguntas,fimListaPerguntas,9);
+                            }
+                            break;
                         }
-
                     }
                 }while(opc2!=0);
             }
@@ -202,8 +220,12 @@ int main() {
                 break;
             }
             case 0:{
-                printf("Saindo\n");
+                printf("Saindo...\n");
+
                 gravarEmFicheiro(iniListaUser);
+                limparLista(&iniListaUser,&iniListaUser);
+                limparListaPerguntas(&iniListaPerguntas,&iniListaPerguntas);
+                limparListaPerguntas(&iniListaPerguntas2,&iniListaPerguntas2);
             }
         }
     }while(opc1!=0);
