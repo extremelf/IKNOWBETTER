@@ -48,9 +48,6 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
 
     aux=iniListaPerguntas2;
 
-
-    //FODEUUUUUUUUU!!!! XD
-    //Não sei que raio fazer
     for(i=0;i<2;i++){
         printf("Introduza o carater de jogo do jogador %i - %s :",i+1,user[i]->info.username);
         scanf(" %c",&user[i]->info.carater);
@@ -70,9 +67,9 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
         }
 
         printf("\nJogador a responder:");
-        carater=getchar();
+        scanf(" %c",&carater);
 
-        if(strcmp(user[0]->info.carater,carater)){
+        if(user[0]->info.carater==carater){
             aux2[0]=user[0];
             aux2[1]=user[1];
         }
@@ -88,6 +85,7 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
                 if(strcmp(resposta,(aux->info.correta))==0){
                     printf("resposta correta\n");
                     aux2[0]->info.dinheiro+=250;
+                    break;
                 }
                 if(strcmp(resposta,(aux->info.correta))!=0){
                     printf("Jogador %s a responder:\n",aux2[1]->info.username);
@@ -95,10 +93,12 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
                     if(strcmp(resposta,(aux->info.correta))==0){
                         printf("resposta correta\n");
                         aux2[1]->info.dinheiro+=300;
+                        break;
                     }
                     else{
 
                         caixa+=300;
+                        break;
                     }
                 }
             }
@@ -108,6 +108,7 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
                 if(strcmp(resposta,(aux->info.correta))==0){
                     printf("resposta correta\n");
                     aux2[0]->info.dinheiro+=250;
+                    break;
                 }
                 if(strcmp(resposta,(aux->info.correta))!=0){
                     printf("Jogador %s a responder:\n",aux2[1]->info.username);
@@ -115,10 +116,12 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
                     if(strcmp(resposta,(aux->info.correta))==0){
                         printf("resposta correta\n");
                         aux2[1]->info.dinheiro+=300;
+                        break;
                     }
                     else{
                         printf("Resposta errada\n");
                         caixa+=300;
+                        break;
                     }
                 }
             }
@@ -128,6 +131,7 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
                 if(strcmp(resposta,(aux->info.correta))==0){
                     printf("resposta correta\n");
                     aux2[0]->info.dinheiro+=250;
+                    break;
                 }
                 if(strcmp(resposta,(aux->info.correta))!=0){
                     printf("Jogador %s a responder V/F:\n",aux2[1]->info.username);
@@ -135,10 +139,12 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
                     if(strcmp(resposta,(aux->info.correta))==0){
                         printf("resposta correta\n");
                         aux2[1]->info.dinheiro+=300;
+                        break;
                     }
                     else{
                         printf("Resposta errada\n");
                         caixa+=300;
+                        break;
                     }
                 }
             }
@@ -196,7 +202,6 @@ int main() {
                         case 2:{
                             newUser=registarUser();
                             inserirFimLista(&iniListaUser,&fimListaUser,newUser);
-                            //guardarUserEmFicheiro(&newUser);
                             break;
                         }
                         case 3:{
@@ -205,11 +210,10 @@ int main() {
                                 break;
                             }
                             else{
-                                //estou com uns problemas na ultima parte do gerador de perguntas, não te assustes com a quantidade de printf, é para ver onde falha
-                                //printf("Introduza a quantidade de perguntas a jogar:\n");
-                                //scanf("%i",&nPerguntas);
-                                //geradorPerguntas(iniListaPerguntas,&iniListaPerguntas2,&fimListaPerguntas2,nPerguntas);
-                                jogada(user,iniListaPerguntas,fimListaPerguntas,9);
+                                printf("Introduza a quantidade de perguntas a jogar:\n");
+                                scanf("%i",&nPerguntas);
+                                geradorPerguntas(iniListaPerguntas,&iniListaPerguntas2,&fimListaPerguntas2,nPerguntas);
+                                jogada(user,iniListaPerguntas2,fimListaPerguntas2,nPerguntas);
                             }
                             break;
                         }
