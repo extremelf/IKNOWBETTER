@@ -65,6 +65,7 @@ ELEMENTO *login(ELEMENTO *iniLista){
 
     aux=iniLista;
 
+    while((strcmp(aux->info.username,user)!=0) && aux!=NULL){
     while((strcmp(aux->info.username,user)!=0)){
         aux=aux->seguinte;
         if(aux==NULL){
@@ -192,6 +193,7 @@ void limparListaPerguntas(ELEMENTOP **inilista, ELEMENTOP **fimlista){
 int gravarEmFicheiro(ELEMENTO *inilista) {
     ELEMENTO *aux = NULL;
     FILE *fp = NULL;
+   fp = fopen("C:\\Users\\mingo\\Desktop\\IPVC\\PROG1\\I know better\\utilizadores.dat", "wb");
     fp = fopen("utilizadores.dat", "wb");
 
     if (fp == NULL) {

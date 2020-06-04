@@ -48,34 +48,26 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
 
     aux=iniListaPerguntas2;
 
+    aux=iniListaPerguntas2;
+
+
+    //FODEUUUUUUUUU!!!! XD
+    //Não sei que raio fazer
     for(i=0;i<2;i++){
         printf("Introduza o carater de jogo do jogador %i - %s :",i+1,user[i]->info.username);
         scanf(" %c",&user[i]->info.carater);
-    }
-
-    for(jogada=0;jogada<totPerguntas+1;jogada++){
-        switch(aux->info.tipoPergunta){
-            case 1:{
-                printf(" %s\n %s\t %s\n %s\t %s",aux->info.pergunta,aux->info.respostas[0],
-                       aux->info.respostas[1],aux->info.respostas[2],aux->info.respostas[3]);
-                break;
-            }
-            case 2:{
-                printf(" %s\n Resposta:",aux->info.respostas[4]);
-                break;
-            }
+@ -70,9 +67,9 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
         }
 
         printf("\nJogador a responder:");
+        carater=getchar();
         scanf(" %c",&carater);
 
+        if(strcmp(user[0]->info.carater,carater)){
         if(user[0]->info.carater==carater){
             aux2[0]=user[0];
             aux2[1]=user[1];
-        }
-        if(user[1]->info.carater==carater){
-            aux2[0]=user[1];
-            aux2[1]=user[0];
+        
         }
 
         switch(aux->info.tipoPergunta){
@@ -200,24 +192,25 @@ int main() {
                             break;
                         }
                         case 2:{
-                            newUser=registarUser();
+                           newUser=registarUser();
                             inserirFimLista(&iniListaUser,&fimListaUser,newUser);
+                            //guardarUserEmFicheiro(&newUser);
                             break;
                         }
                         case 3:{
+                        
                             if(user[0]==NULL || user[1]==NULL){
                                 printf("Sem utilizadores com sessão iniciada\n");
                                 break;
                             }
                             else{
+                                jogada(user,iniListaPerguntas,fimListaPerguntas,9);
                                 printf("Introduza a quantidade de perguntas a jogar:\n");
                                 scanf("%i",&nPerguntas);
                                 geradorPerguntas(iniListaPerguntas,&iniListaPerguntas2,&fimListaPerguntas2,nPerguntas);
                                 jogada(user,iniListaPerguntas2,fimListaPerguntas2,nPerguntas);
                             }
                             break;
-                        }
-                    }
                 }while(opc2!=0);
             }
             case 2:{
