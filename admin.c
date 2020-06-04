@@ -4,6 +4,11 @@
 #include "gestaoDados.h"
 
 
+
+
+//**************************************************
+//PAINEL
+//**************************************************
 void painelAdmin(USER users[], int totregistos){ //usuariostotal
     int opc;
     ELEMENTO *inilista=NULL, *fimlista=NULL;
@@ -32,23 +37,32 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                     alterarlista(iniLista);
                     break;
                 case 4:
-                    remover(&inilista, &fimlista);
+                    remover(&inilista, &fimlista, totperguntas);
+
+                    removerP (ELEMENTOP **inilista, ELEMENTO **fimlista)
                     break;
-                case 5:
+                case 5:ordenaPorNome(USER users[], int totregistos, int tam);
+                    listUsers(users,utotal)
+                    break;
+                case 6:
                     listUser(users, totregistos);
                     break;
-                    case 0:
-                    escreverPerg(inilista, fimlista);
+                case 0:
+                    printf("Sair da parte Administrativa")
+
+
                     limparLista(&inilista, &fimlista);
                     break;
                 default:
+                    //libertar memoria!
                     printf("Escolha uma opção entre 1 e 6\n");
             }
         } while (opc != 0);
-    } else {
-        printf("Não é o administrador\0");
+    }
     }
 
 
 
-}
+
+
+
