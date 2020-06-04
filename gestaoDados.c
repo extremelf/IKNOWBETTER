@@ -65,11 +65,8 @@ ELEMENTO *login(ELEMENTO *iniLista){
 
     aux=iniLista;
 
-    while((strcmp(aux->info.username,user)!=0)){
+    while((strcmp(aux->info.username,user)!=0) && aux!=NULL){
         aux=aux->seguinte;
-        if(aux==NULL){
-            break;
-        }
     }
     if(aux==NULL){
         printf("Utilizador inexistente\n");
