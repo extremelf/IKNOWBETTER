@@ -20,7 +20,7 @@
      if(fp==NULL){
          printf("Erro a abrir o ficheiro\n");
          return;
-     } else {
+     } else {  //
          printf("Qual a categoria que pretende inserir a pergunta: ");
          scanf("%s", &cat); //buscar no ficheiro como tinhas dito, não sei nome
          printf ("Pretende fazer pergunta de VF, escolha multipla ou resposta rápida?:\n");
