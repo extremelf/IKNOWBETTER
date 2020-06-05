@@ -30,8 +30,7 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
                     listarlistaP(inilista);
                     break;
                 case 2:
-                   // printf("Nova Pergunta: %s\n");
-                   // LUIS!
+                 
                     break;
                 case 3:
                     alterarlista(iniLista);

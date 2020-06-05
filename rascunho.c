@@ -63,5 +63,90 @@
      }
 }
 
+/////////////   PONTUAÇÃO////
+void bubblesorteP (USER users, int tam, totPerguntas){
+    int i, x;
+    USER aux;
+    for(x=0;tam==0;x++){
+        for(i=0;i<tam-1;i++){
+            if(users[i].pergunta<users[i+1].pergunta){
+                aux=users[i];
+                users[i]=users[i+1];
+                users[i+1]=aux;
+
+            }
+        }
+    }
+
+}
+
+// RECORDE DE PONTUAÇÃO////
 
 
+
+void bubblesort  (USER users, int *ponto, char *nome, int tam){
+
+    int i, pAux;
+    char nAux;
+    int troca;
+    do{
+        troca = 0;
+        for(i=tam;i>0;i--) {
+
+      /* Fazer o fp open do ficheiro
+    fp=fopen("perguntas.dat","rb");
+    if(fp==NULL){
+        printf("Erro a abrir o ficheiro\n");
+        return;
+    }*/
+if (ponto[i]>ponto[i-1]){
+    pAux = pontos [i];
+    strcpy(nAux, nome[i]);
+    ponto[i]= ponto [i-1];
+    strcpy(nome[i], nome [i-1]);
+    ponto [i-1]=pAux;
+    strcpy(nome[i-1],nAux);
+    troca = 1;
+         }
+    }
+
+ } while (troca);
+
+
+}
+
+
+void raking(){
+    
+    char nomes [100];
+    int ponto, i;
+    int tam = 50 //mostrar  a quatidade de jogadores
+
+
+
+    printf("\n******* RAKING DE JOGADORES *******\n");
+    printf("        \n");
+    printf("NOME - PONTUAÇÃO");
+    printf("        \n");
+
+    FILE * pont_arq; //ponteiro para o arquivo
+    pont_arquivo = fopen("ponto.txt", "r"); // ALTERAR O PONTO.TXT;
+
+    while(fscanf(ponto/*arquivo do ponto*/, "%s -  %d\n", nome, &ponto)!=EOF){
+        strcpy (nomes[tam], nome);
+        pontuacoes[tam]=pontuacao;
+        tam++;
+    }
+//ordenar 
+bubblesort(ponto, nomes, tamanho);
+
+//imprimir
+
+for (i=0; i<tam;i++){
+    printf(" %s - %d", nomes[i], ponto[i]);
+
+}
+fclose (ponto_arq)
+
+
+}

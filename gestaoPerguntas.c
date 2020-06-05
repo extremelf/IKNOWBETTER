@@ -21,7 +21,7 @@
         list[i] = list[j];
         list[j] = temp;
 
-@ -25,19 +25,21 @@ void geradorPerguntas(ELEMENTOP *iniLista1, ELEMENTOP **iniLista2, ELEMENTOP **f
+ void geradorPerguntas(ELEMENTOP *iniLista1, ELEMENTOP **iniLista2, ELEMENTOP **f
     for(i=0;i<totperguntas;i++){
         printf("poisção:%i\n",vetor[i]);
     }
@@ -68,3 +68,4 @@ void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
     }
 }
 //************************************************************
+///PRINTF QUANTO A PONTUAÇÃO///
