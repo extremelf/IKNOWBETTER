@@ -1,16 +1,14 @@
-//
-// Created by maria on 05/05/2020.
-//
 #include "gestaoDados.h"
 
-
-void painelAdmin(USER users[], int totregistos){ //usuariostotal
+//**************************************************
+//PAINEL
+//**************************************************
+void painelAdmin(ELEMENTO *admin,ELEMENTO **iniListaUser,ELEMENTO **fimListaUser,ELEMENTOP **iniListaPerguntas,ELEMENTOP **fimListaPerguntas){
     int opc;
-    ELEMENTO *inilista=NULL, *fimlista=NULL;
-    INFO infos;
-    //int perG=0;
-    //perG=lerperguntas
-    if(checkAdmin(users,totregistos)==1) {
+    int indiceRemover=0;
+    int indiceAlterar;
+
+    if(admin->info.isAdmin==1) {
         do {
             printf("1 - Listar perguntas\n");
             printf("2 - Adicionar Perguntas\n");
@@ -22,33 +20,48 @@ void painelAdmin(USER users[], int totregistos){ //usuariostotal
             scanf("%i", &opc);
             switch (opc) {
                 case 1:
-                    listarlistaP(inilista);
+                    listarPerguntas(*iniListaPerguntas);
                     break;
                 case 2:
-                   // printf("Nova Pergunta: %s\n");
-                   // LUIS!
+
                     break;
                 case 3:
-                    alterarlista(iniLista);
+                    printf("Introduza o indice da pergunta a alterar:(999 para cancelar acção)");
+                    scanf("%i",&indiceAlterar);
+                    if(indiceAlterar==999){
+                        printf("\nAção cancelada\n");
+                        break;
+                    }
+                    printf("\n");
+                    alteraPergunta(*iniListaPerguntas,indiceAlterar);
                     break;
                 case 4:
-                    remover(&inilista, &fimlista);
+                    printf("Introduza o indice da pergunta a remover:(999 para cancelar ação)");
+                    scanf("%i",&indiceRemover);
+                    if(indiceRemover==999){
+                        printf("\nAção cancelada\n");
+                        break;
+                    }
+                    printf("\n");
+                    removerPergunta(iniListaPerguntas, fimListaPerguntas,indiceRemover);
+
                     break;
                 case 5:
-                    listUser(users, totregistos);
+                    bubbleSort(iniListaUser);
+                    listarUtilizadores(*iniListaUser);
                     break;
-                    case 0:
-                    escreverPerg(inilista, fimlista);
-                    limparLista(&inilista, &fimlista);
+                case 6:
+                    listarUtilizadores(*iniListaUser);
+                    break;
+                case 0:
+                    printf("Sair da parte Administrativa");
                     break;
                 default:
                     printf("Escolha uma opção entre 1 e 6\n");
             }
         } while (opc != 0);
-    } else {
-        printf("Não é o administrador\0");
     }
-
-
-
+    else{
+        printf("O utilizador não tem privilégios de administrador\n");
+    }
 }

@@ -18,6 +18,48 @@ USER registarUser(){
     aux.isAdmin=0;
     return aux;
 }
+
+PERGUNTA novaPergunta(){
+    PERGUNTA aux;
+    int tipoPergunta=0;
+    printf("Introduza a pergunta:\n");
+    scanf(" %300[^\n]s",aux.pergunta);
+    do{
+        printf("Introduza o tipo de pergunta:\n"
+               "1- escolha multipla\n"
+               "2- resposta direta\n"
+               "3- Verdadeiro ou falso\n");
+        scanf("%i",&tipoPergunta);
+        switch(tipoPergunta){
+            case 1:{
+                printf("Introduza a resposta A:\n");
+                scanf(" %300[^\n]s",aux.respostas[0]);
+                printf("Introduza a resposta B:\n");
+                scanf(" %300[^\n]s",aux.respostas[1]);
+                printf("Introduza a resposta C:\n");
+                scanf(" %300[^\n]s",aux.respostas[2]);
+                printf("Introduza a resposta D:\n");
+                scanf(" %300[^\n]s",aux.respostas[3]);
+                printf("Introduza a opção correta(apenas a letra maiuscula):\n");
+                scanf(" %100[^\n]s",aux.correta);
+                break;
+            }
+            case 2:{
+                printf("Introduza a resposta direta:\n");
+                scanf(" %300[^\n]s",aux.correta);
+                break;
+            }
+            case 3:{
+                printf("Resposta V ou F:\n");
+                scanf(" %100[^\n]s",aux.correta);
+                break;
+            }
+            default: printf("opcao errada");
+        }
+    }while(tipoPergunta!=0);
+
+    return aux;
+}
 int menu_arranque () {
     int opc = 0;
     printf("*************MENU-************\n");
@@ -38,159 +80,7 @@ int menu_user() {
     return opc;
 }
 
-void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOP *fimListaPerguntas) {
-    int jogada = 0, i = 0, j = 0;
-    char carater;
-    char resposta[100];
-    int caixa = 900;
-    int categoria = 0;
-    int totalApostaFinal;
-    ELEMENTO *maiorPontuacao = NULL, *menorPontuacao = NULL;
-    DATA dataAtual;
 
-    ELEMENTOP *aux = NULL;
-    ELEMENTO *aux2[2] = {NULL, NULL};
-
-    user[0]->info.dinheiro=0;
-    user[1]->info.dinheiro=0;
-    user[0]->info.apostaFinal=0;
-    user[1]->info.apostaFinal=0;
-
-    aux = iniListaPerguntas2;
-
-    for (i = 0; i < 2; i++) {
-        printf("Introduza o carater de jogo do jogador %i - %s :", i + 1, user[i]->info.username);
-        scanf(" %c", &user[i]->info.carater);
-    }
-
-    for (jogada = 0; jogada < totPerguntas; jogada++) {
-        apresentarInfoJogo(user,caixa);
-        apresentacaoPerguntas(aux);
-
-        while (carater != user[0]->info.carater && carater != user[1]->info.carater) {
-            printf("\nJogador a responder:");
-            scanf(" %c", &carater);
-        }
-
-        if (user[0]->info.carater == carater) {
-            aux2[0] = user[0];
-            aux2[1] = user[1];
-        }
-        if (user[1]->info.carater == carater) {
-            aux2[0] = user[1];
-            aux2[1] = user[0];
-        }
-
-        verificaRespostas(aux,aux2,&caixa);
-
-        aux = aux->seguinte;
-        carater = '\0';
-    }
-
-    printf("Aposta final:\n");
-    if (user[0]->info.dinheiro > user[1]->info.dinheiro) {
-        maiorPontuacao = user[0];
-        menorPontuacao = user[1];
-    } else {
-        maiorPontuacao = user[1];
-        menorPontuacao = user[0];
-    }
-    printf("Jogador %s\n", maiorPontuacao->info.username);
-    printf("Introduza a categoria da pergunta:\n"
-           "1- Geografia\t2- História\t3- Cinema\t4- Música\t5- Desporto\n"
-           "6- Informatica\t7- Biologia\t8- Agricultura\t9- Matematica\t10- Cultura Geral\n"
-           "Opção:");
-    scanf("%i", &categoria);
-
-    aux = perguntaFinal(categoria, iniListaPerguntas, iniListaPerguntas2);
-
-    for (i = 0; i < 2; i++) {
-        do {
-            printf("Introduza o valor da aposta final do jogador %s:\n", user[i]->info.username);
-            scanf("%i", &user[i]->info.apostaFinal);
-
-        } while (user[i]->info.apostaFinal < 500 && user[i]->info.apostaFinal > user[i]->info.dinheiro);
-    }
-
-    //user[0]->info.dinheiro -= user[0]->info.apostaFinal;
-    //user[1]->info.dinheiro -= user[1]->info.apostaFinal;
-
-    totalApostaFinal = user[0]->info.apostaFinal + user[1]->info.apostaFinal;
-    apresentarInfoJogo(user,caixa);
-    apresentacaoPerguntas(aux);
-
-    switch (aux->info.tipoPergunta) {
-        case 1: {
-            printf("Jogador %s a responder:\n", maiorPontuacao->info.username);
-            scanf(" %100[^\n]s", resposta);
-            if (strcmp(resposta, (aux->info.correta)) == 0) {
-                printf("resposta correta\n");
-                maiorPontuacao->info.dinheiro += totalApostaFinal;
-                break;
-            }
-            if (strcmp(resposta, (aux->info.correta)) != 0) {
-                printf("Jogador %s a responder:\n", menorPontuacao->info.username);
-                scanf(" %100[^\n]s", resposta);
-                if (strcmp(resposta, (aux->info.correta)) == 0) {
-                    printf("resposta correta\n");
-                    menorPontuacao->info.dinheiro += totalApostaFinal;
-                    break;
-                } else {
-                    printf("Resposta errada\n");
-                    caixa += 300;
-                    break;
-                }
-            }
-        }
-        case 2: {
-            printf("Jogador %s a responder:\n", maiorPontuacao->info.username);
-            scanf(" %100[^\n]s", resposta);
-            if (strcmp(resposta, (aux->info.correta)) == 0) {
-                printf("resposta correta\n");
-                maiorPontuacao->info.dinheiro += totalApostaFinal;
-                break;
-            }
-            if (strcmp(resposta, (aux->info.correta)) != 0) {
-                printf("Jogador %s a responder:\n", menorPontuacao->info.username);
-                scanf(" %100[^\n]s", resposta);
-                if (strcmp(resposta, (aux->info.correta)) == 0) {
-                    printf("resposta correta\n");
-                    menorPontuacao->info.dinheiro += totalApostaFinal;
-                    break;
-                } else {
-                    printf("Resposta errada\n");
-                    caixa += 300;
-                    break;
-                }
-            }
-        }
-        case 3: {
-            printf("Jogador %s a responder V/F:\n", maiorPontuacao->info.username);
-            scanf(" %100[^\n]s", resposta);
-            if (strcmp(resposta, (aux->info.correta)) == 0) {
-                printf("resposta correta\n");
-                maiorPontuacao->info.dinheiro += totalApostaFinal;
-                break;
-            }
-            if (strcmp(resposta, (aux->info.correta)) != 0) {
-                printf("Jogador %s a responder:\n", menorPontuacao->info.username);
-                scanf(" %100[^\n]s", resposta);
-                if (strcmp(resposta, (aux->info.correta)) == 0) {
-                    printf("resposta correta\n");
-                    menorPontuacao->info.dinheiro += totalApostaFinal;
-                    break;
-                } else {
-                    printf("Resposta errada\n");
-                    caixa += totalApostaFinal;
-                    break;
-                }
-            }
-        }
-    }
-    dataAtual=getdate();
-    user[0]->info.ultima=getdate();
-    user[1]->info.ultima=getdate();
-}
 
 int main() {
     int nPerguntas=0;
@@ -204,6 +94,7 @@ int main() {
     USER newUser;
     ELEMENTO *user[2]={NULL,NULL};
     ELEMENTO *iniListaUser=NULL, *fimListaUser=NULL;
+    ELEMENTO *admin=NULL;
     ELEMENTOP *iniListaPerguntas=NULL, *fimListaPerguntas=NULL;
     ELEMENTOP *iniListaPerguntas2=NULL, *fimListaPerguntas2=NULL;
     ELEMENTOR *iniListaRanking=NULL, *fimListaRanking=NULL;
@@ -258,13 +149,20 @@ int main() {
                             }
                             break;
                         }
-                        default:{
-                            printf("Opção errada\n");
+                        case 0:{
+                            break;
                         }
                     }
                 }while(opc2!=0);
+                break;
             }
             case 2:{
+                admin=login(iniListaUser);
+                if(admin==NULL){
+                    printf("Utilizador errado");
+                    break;
+                }
+                painelAdmin(admin,&iniListaUser,&fimListaUser,&iniListaPerguntas,&fimListaPerguntas);
                 break;
             }
             case 0:{

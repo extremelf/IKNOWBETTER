@@ -64,15 +64,17 @@ typedef struct elemp{
     struct elemp *seguinte;
     struct elemp *anterior;
 }ELEMENTOP;
-void painelAdmin(USER users[], int totregistos);
+void painelAdmin(ELEMENTO *admin,ELEMENTO **iniListaUser,ELEMENTO **fimListaUser,ELEMENTOP **iniListaPerguntas,ELEMENTOP **fimListaPerguntas);
+void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOP *fimListaPerguntas);
+
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
 int inserirFimListaRanking(ELEMENTOR **inilista,ELEMENTOR **fimlista, RANKING aux_info);
+int removerPergunta(ELEMENTOP **inilista, ELEMENTOP **fimlista, int indice);
 
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 void limparListaPerguntas(ELEMENTOP **inilista, ELEMENTOP **fimlista);
 void limparListaRanking(ELEMENTOR **inilista, ELEMENTOR **fimlista);
-int loginUser (USER users[], int totregistos);
 
 ELEMENTO *login(ELEMENTO *iniLista);
 void geradorPerguntas(ELEMENTOP *iniLista1, ELEMENTOP **iniLista2, ELEMENTOP **fimLista2,int totperguntas);
@@ -86,9 +88,15 @@ void gravarRanking(ELEMENTO *iniLista,ELEMENTO *user[],int caixa,DATA dataAtual)
 
 void apresentacaoPerguntas(ELEMENTOP *aux);
 void verificaRespostas(ELEMENTOP *aux,ELEMENTO *aux2[],int *caixa);
+void verificarPerguntaFinal(ELEMENTOP *aux,ELEMENTO *maiorPontuacao,ELEMENTO *menorPontuacao,int totalApostaFinal, int *caixa);
 void apresentarInfoJogo(ELEMENTO *aux[],int caixa);
 
 DATA getdate();
 
+void alteraPergunta(ELEMENTOP *iniLista, int indice);
+void swap(ELEMENTO *a, ELEMENTO *b);
+void bubbleSort(ELEMENTO **iniLista);
+
 void listarPerguntas(ELEMENTOP *iniLista);
+void listarUtilizadores(ELEMENTO *iniLista);
 #endif //PROJETO_GESTAODADOS_H
