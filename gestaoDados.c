@@ -150,6 +150,33 @@ int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA
 }
 //************************************************************
 
+//************************************************************
+//              Inserir fim lista Ranking
+//************************************************************
+int inserirFimListaRanking(ELEMENTOR **inilista,ELEMENTOR **fimlista, RANKING aux_info){
+    ELEMENTOR *novo=NULL;
+    novo=(ELEMENTOR *)calloc(1,sizeof(ELEMENTOR));
+
+    if(novo==NULL){
+        printf("Erro ao alocar memória\n");
+        return -1;
+    }
+    novo->info=aux_info;
+    novo->anterior=NULL;
+    novo->seguinte=NULL;
+    if(*fimlista==NULL){
+        *inilista=novo;
+        *fimlista=novo;
+    }
+    else{
+        novo->anterior=*fimlista;
+        (*fimlista)->seguinte=novo;
+        *fimlista=novo;
+    }
+    return 0;
+}
+//************************************************************
+
 
 //************************************************************
 //                      Limpar Lista
@@ -168,6 +195,7 @@ void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista){
     free(proximo);
 }
 //************************************************************
+
 //************************************************************
 //                      Limpar Lista Perguntas
 //************************************************************
@@ -184,6 +212,67 @@ void limparListaPerguntas(ELEMENTOP **inilista, ELEMENTOP **fimlista){
     *fimlista=NULL;
     free(proximo);
 }
+//************************************************************
+
+//************************************************************
+//                      Limpar Lista Perguntas
+//************************************************************
+void limparListaRanking(ELEMENTOR **inilista, ELEMENTOR **fimlista){
+    ELEMENTOR *aux, *proximo;
+
+    aux=*inilista;
+    while(aux!=NULL){
+        proximo=aux->seguinte;
+        free(aux);
+        aux=proximo;
+    }
+    *inilista=NULL;
+    *fimlista=NULL;
+    free(proximo);
+}
+//************************************************************
+
+//************************************************************
+//                      Obter tempo atual
+//************************************************************
+DATA getdate(){
+    DATA atual;
+    struct timeval usec_time;
+    time_t now = time(0);
+    gettimeofday(&usec_time,NULL);
+
+    struct tm *current = localtime(&now);
+    atual.ano=current->tm_year+1900;
+    atual.mes=current->tm_mon+1;
+    atual.dia=current->tm_mday;
+
+    return atual;
+}
+//************************************************************
+
+//************************************************************
+// Listar perguntas lidas do ficheiro
+//************************************************************
+void listarPerguntas(ELEMENTOP *iniLista){
+    ELEMENTOP *aux=NULL;
+
+    for(aux=iniLista;aux!=NULL;aux=aux->seguinte){
+        printf(" %i - %s\n %s\t %s\n %s\t %s\n",aux->info.indice,aux->info.pergunta,aux->info.respostas[0],
+               aux->info.respostas[1],aux->info.respostas[2],aux->info.respostas[3]);
+    }
+}
+//************************************************************
+
+//************************************************************
+//              Apresentar informação atual de jogo
+//************************************************************
+
+void apresentarInfoJogo(ELEMENTO *aux2[], int caixa){
+    printf("Dinheiro\t\tCaixa\t\tApostas\n");
+    printf("%s: %i\t%i\t\t%i\n", aux2[0]->info.username, aux2[0]->info.dinheiro, caixa, aux2[0]->info.apostaFinal);
+    printf("%s: %i\t\t\t\t\t%i\n", aux2[1]->info.username, aux2[1]->info.dinheiro, aux2[1]->info.apostaFinal);
+}
+
 //************************************************************
 
 //************************************************************
@@ -210,24 +299,6 @@ int gravarEmFicheiro(ELEMENTO *inilista) {
 //************************************************************
 
 //************************************************************
-//                      Obter tempo atual
-//************************************************************
-DATA getdate(){
-    DATA atual;
-    struct timeval usec_time;
-    time_t now = time(0);
-    gettimeofday(&usec_time,NULL);
-
-    struct tm *current = localtime(&now);
-    atual.ano=current->tm_year+1900;
-    atual.mes=current->tm_mon+1;
-    atual.dia=current->tm_mday;
-
-    return atual;
-}
-//************************************************************
-
-//************************************************************
 //Lê cada utilizador em ficheiro
 //************************************************************
 void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
@@ -239,26 +310,48 @@ void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
         fclose(fp);
         fp=fopen("utilizadores.dat","rb");
     }
-        while(1){
-            fread(&aux,sizeof(USER),1,fp);
-            inserirFimListaUser(iniListaUser,fimListaUser,aux);
-            if(feof(fp)){
-                break;
-            }
+    while(1){
+        fread(&aux,sizeof(USER),1,fp);
+        inserirFimListaUser(iniListaUser,fimListaUser,aux);
+        if(feof(fp)){
+            break;
         }
-        fclose(fp);
+    }
+    fclose(fp);
 }
 //************************************************************
 
 //************************************************************
-// Listar perguntas lidas do ficheiro
+//              Ler Ranking de ficheiro
 //************************************************************
-void listarPerguntas(ELEMENTOP *iniLista){
-    ELEMENTOP *aux=NULL;
+void lerRanking(ELEMENTOR **iniLista,ELEMENTOR **fimLista){
+    FILE *ranking=NULL;
+    RANKING *aux=NULL;
+
+    ranking=fopen("ranking.txt","r");
+
+    while(1){
+        fscanf(ranking,"%s;%i;%s;%i;%i;%i/%i/%i\n",aux->username,&aux->dinheiro,aux->username2,&aux->dinheiro2,&aux->data.ano,&aux->data.mes,&aux->data.dia);
+        inserirFimListaRanking(iniLista,fimLista,*aux);
+        if(feof(ranking)){
+            break;
+        }
+    }
+}
+//************************************************************
+
+//************************************************************
+//             Gravar Ranking em ficheiro
+//************************************************************
+void gravarRanking(ELEMENTO *iniLista,ELEMENTO *user[],int caixa,DATA dataAtual){
+    FILE *ranking=NULL;
+    ELEMENTO *aux=NULL;
+
+    ranking=fopen("ranking.txt","w");
 
     for(aux=iniLista;aux!=NULL;aux=aux->seguinte){
-        printf(" %i - %s\n %s\t %s\n %s\t %s\n",aux->info.indice,aux->info.pergunta,aux->info.respostas[0],
-               aux->info.respostas[1],aux->info.respostas[2],aux->info.respostas[3]);
+        fprintf(ranking,"%s;%i;%s;%i;%i;%i/%i/%i\n",user[0]->info.username,user[0]->info.dinheiro,user[1]->info.username,user[1]->info.dinheiro,caixa,dataAtual.ano,dataAtual.mes,dataAtual.dia);
     }
+    fclose(ranking);
 }
 //************************************************************

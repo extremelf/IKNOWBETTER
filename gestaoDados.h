@@ -9,14 +9,26 @@
 #include <string.h>
 #include <time.h>
 
-
-
-
 typedef struct data{
     int dia;
     int mes;
     int ano;
 }DATA;
+
+
+typedef struct ranking{
+    char username[30];
+    int dinheiro;
+    char username2[30];
+    int dinheiro2;
+    DATA data;
+}RANKING;
+
+typedef struct elemr{
+    RANKING info;
+    struct elemr *seguinte;
+    struct elemr *anterior;
+}ELEMENTOR;
 
 typedef struct utilizador{
     char nome[100];
@@ -26,7 +38,9 @@ typedef struct utilizador{
     int idade;
     char nacionalidade[100];
     int isAdmin;
-    float dinheiro;
+    int dinheiro;
+    int carteira;
+    int apostaFinal;
     DATA ultima;
 }USER;
 
@@ -38,6 +52,7 @@ typedef struct elem{
 
 typedef struct perguntas{
     int indice;
+    int categoria;
     char pergunta[300];
     char respostas[5][300];
     char correta[100];
@@ -50,19 +65,30 @@ typedef struct elemp{
     struct elemp *anterior;
 }ELEMENTOP;
 void painelAdmin(USER users[], int totregistos);
-int gravarEmFicheiro(ELEMENTO *inilista);
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
+int inserirFimListaRanking(ELEMENTOR **inilista,ELEMENTOR **fimlista, RANKING aux_info);
 
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 void limparListaPerguntas(ELEMENTOP **inilista, ELEMENTOP **fimlista);
-
+void limparListaRanking(ELEMENTOR **inilista, ELEMENTOR **fimlista);
 int loginUser (USER users[], int totregistos);
+
 ELEMENTO *login(ELEMENTO *iniLista);
 void geradorPerguntas(ELEMENTOP *iniLista1, ELEMENTOP **iniLista2, ELEMENTOP **fimLista2,int totperguntas);
+ELEMENTOP *perguntaFinal(int categoria,ELEMENTOP *iniLista,ELEMENTOP *iniLista2);
 
-void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);
 void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser);
+void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);
+void lerRanking(ELEMENTOR **iniLista,ELEMENTOR **fimLista);
+int gravarEmFicheiro(ELEMENTO *inilista);
+void gravarRanking(ELEMENTO *iniLista,ELEMENTO *user[],int caixa,DATA dataAtual);
+
+void apresentacaoPerguntas(ELEMENTOP *aux);
+void verificaRespostas(ELEMENTOP *aux,ELEMENTO *aux2[],int *caixa);
+void apresentarInfoJogo(ELEMENTO *aux[],int caixa);
+
+DATA getdate();
 
 void listarPerguntas(ELEMENTOP *iniLista);
 #endif //PROJETO_GESTAODADOS_H
