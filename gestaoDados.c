@@ -454,7 +454,7 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
            "Opção:");
     scanf("%i", &categoria);
 
-    aux = perguntaFinal(categoria, iniListaPerguntas, iniListaPerguntas2);
+    aux = perguntaFinal(categoria, iniListaPerguntas);
 
     for (i = 0; i < 2; i++) {
         do {

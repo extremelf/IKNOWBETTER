@@ -8,15 +8,15 @@
 // Gerador de perguntas aleatoriamente da lista sem repetir
 //************************************************************
 void geradorPerguntas(ELEMENTOP *iniLista1, ELEMENTOP **iniLista2, ELEMENTOP **fimLista2,int totperguntas){
-    int list[16], vetor[totperguntas];
+    int list[66], vetor[totperguntas];
     int i=0,j=0,temp;
     ELEMENTOP *aux=NULL;
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < 66; i++) {
         list[i] = i;
     }
     for (i = 0; i < totperguntas; i++) {
-        j = 1 + (i + (rand() % (16 - i)));
+        j = 1 + (i + (rand() % (66 - i)));
         temp = list[i];
         list[i] = list[j];
         list[j] = temp;
@@ -108,35 +108,27 @@ void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
 //************************************************************
 //                      Gerar a pergunta Final
 //************************************************************
-ELEMENTOP *perguntaFinal(int categoria,ELEMENTOP *iniLista,ELEMENTOP *iniLista2){
+ELEMENTOP *perguntaFinal(int categoria,ELEMENTOP *iniLista){
     int vetor;
-    int cont=0,i=0,j=0,k=0,check=1,temp;
+    int check=1;
     ELEMENTOP *aux=NULL,*aux2=NULL;
     aux=iniLista;
 
     do{
-        vetor=rand()%100;
-        for(aux2=iniLista2;aux2!=NULL;aux2=aux2->seguinte){
-            if(aux2->info.indice==vetor){
-                check=0;
+        vetor=rand()%66;
+        printf("aqui\n");
+        do {
+            printf("1");
+            if (aux->info.indice == vetor && aux->info.categoria == categoria) {
+                printf("2");
+                return aux;
+            }
+            if(aux==NULL){
+                printf("XD");
                 break;
             }
-        }
-        printf("aqui\n");
-
-        if (check==1) {
-            printf("entrou");
-            while (1) {
-                if (aux->info.indice == vetor && aux->info.categoria == categoria) {
-                    return aux;
-                }
-                if(aux==NULL){
-                    printf("XD");
-                    break;
-                }
-                aux = aux->seguinte;
-            }
-        }
+            aux = aux->seguinte;
+        }while(1);
     }while(1);
 }
 //************************************************************

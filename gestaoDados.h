@@ -78,7 +78,7 @@ void limparListaRanking(ELEMENTOR **inilista, ELEMENTOR **fimlista);
 
 ELEMENTO *login(ELEMENTO *iniLista);
 void geradorPerguntas(ELEMENTOP *iniLista1, ELEMENTOP **iniLista2, ELEMENTOP **fimLista2,int totperguntas);
-ELEMENTOP *perguntaFinal(int categoria,ELEMENTOP *iniLista,ELEMENTOP *iniLista2);
+ELEMENTOP *perguntaFinal(int categoria,ELEMENTOP *iniLista);
 
 void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser);
 void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);
