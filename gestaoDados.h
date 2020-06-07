@@ -15,12 +15,12 @@ typedef struct data{
     int ano;
 }DATA;
 
-
 typedef struct ranking{
     char username[30];
     int dinheiro;
     char username2[30];
     int dinheiro2;
+    int caixa;
     DATA data;
 }RANKING;
 
@@ -65,12 +65,16 @@ typedef struct elemp{
     struct elemp *anterior;
 }ELEMENTOP;
 void painelAdmin(ELEMENTO *admin,ELEMENTO **iniListaUser,ELEMENTO **fimListaUser,ELEMENTOP **iniListaPerguntas,ELEMENTOP **fimListaPerguntas);
-void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOP *fimListaPerguntas);
+void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOP *fimListaPerguntas,ELEMENTOR **iniListaRanking,ELEMENTOR **fimListaRanking);
 
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
 int inserirFimListaRanking(ELEMENTOR **inilista,ELEMENTOR **fimlista, RANKING aux_info);
+
 int removerPergunta(ELEMENTOP **inilista, ELEMENTOP **fimlista, int indice);
+int removerUltimaPerguntaLida(ELEMENTOP **iniLista,ELEMENTOP **fimLista);
+int removerUltimoJogadorLido(ELEMENTO **iniLista,ELEMENTO **fimLista);
+int removerUltimoRankingLido(ELEMENTOR **iniLista,ELEMENTOR **fimLista);
 
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 void limparListaPerguntas(ELEMENTOP **inilista, ELEMENTOP **fimlista);
@@ -84,7 +88,8 @@ void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser);
 void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista);
 void lerRanking(ELEMENTOR **iniLista,ELEMENTOR **fimLista);
 int gravarEmFicheiro(ELEMENTO *inilista);
-void gravarRanking(ELEMENTO *iniLista,ELEMENTO *user[],int caixa,DATA dataAtual);
+int gravarPerguntasFicheiro(ELEMENTOP *iniLista);
+void gravarRanking(ELEMENTOR *iniLista);
 
 void apresentacaoPerguntas(ELEMENTOP *aux);
 void verificaRespostas(ELEMENTOP *aux,ELEMENTO *aux2[],int *caixa);
@@ -95,8 +100,12 @@ DATA getdate();
 
 void alteraPergunta(ELEMENTOP *iniLista, int indice);
 void swap(ELEMENTO *a, ELEMENTO *b);
+void swapRanking(ELEMENTOR *a, ELEMENTOR *b);
 void bubbleSort(ELEMENTO **iniLista);
+void bubbleSortRankingDia(ELEMENTOR **iniLista);
+void bubbleSortRankingMes(ELEMENTOR **iniLista);
 
+void listarRanking(ELEMENTOR *iniLista);
 void listarPerguntas(ELEMENTOP *iniLista);
 void listarUtilizadores(ELEMENTO *iniLista);
 #endif //PROJETO_GESTAODADOS_H

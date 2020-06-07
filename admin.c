@@ -1,5 +1,48 @@
 #include "gestaoDados.h"
 
+
+PERGUNTA newQuestion(){
+    PERGUNTA aux;
+    int tipoPergunta=0;
+    printf("Introduza a pergunta:\n");
+    scanf(" %300[^\n]s",aux.pergunta);
+    do{
+        printf("Introduza o tipo de pergunta:\n"
+               "1- escolha multipla\n"
+               "2- resposta direta\n"
+               "3- Verdadeiro ou falso\n");
+        scanf("%i",&tipoPergunta);
+        switch(tipoPergunta){
+            case 1:{
+                printf("Introduza a resposta A:\n");
+                scanf(" %300[^\n]s",aux.respostas[0]);
+                printf("Introduza a resposta B:\n");
+                scanf(" %300[^\n]s",aux.respostas[1]);
+                printf("Introduza a resposta C:\n");
+                scanf(" %300[^\n]s",aux.respostas[2]);
+                printf("Introduza a resposta D:\n");
+                scanf(" %300[^\n]s",aux.respostas[3]);
+                printf("Introduza a opção correta(apenas a letra maiuscula):\n");
+                scanf(" %100[^\n]s",aux.correta);
+                break;
+            }
+            case 2:{
+                printf("Introduza a resposta direta:\n");
+                scanf(" %300[^\n]s",aux.correta);
+                break;
+            }
+            case 3:{
+                printf("Resposta V ou F:\n");
+                scanf(" %100[^\n]s",aux.correta);
+                break;
+            }
+            default: printf("opcao errada");
+        }
+    }while(tipoPergunta!=0);
+
+    return aux;
+}
+
 //**************************************************
 //PAINEL
 //**************************************************
@@ -7,6 +50,7 @@ void painelAdmin(ELEMENTO *admin,ELEMENTO **iniListaUser,ELEMENTO **fimListaUser
     int opc;
     int indiceRemover=0;
     int indiceAlterar;
+    PERGUNTA novaPergunta;
 
     if(admin->info.isAdmin==1) {
         do {
@@ -23,7 +67,8 @@ void painelAdmin(ELEMENTO *admin,ELEMENTO **iniListaUser,ELEMENTO **fimListaUser
                     listarPerguntas(*iniListaPerguntas);
                     break;
                 case 2:
-
+                    novaPergunta=newQuestion();
+                    inserirFimListaPerguntas(iniListaPerguntas,fimListaPerguntas,novaPergunta);
                     break;
                 case 3:
                     printf("Introduza o indice da pergunta a alterar:(999 para cancelar acção)");
@@ -55,6 +100,7 @@ void painelAdmin(ELEMENTO *admin,ELEMENTO **iniListaUser,ELEMENTO **fimListaUser
                     break;
                 case 0:
                     printf("Sair da parte Administrativa");
+                    gravarPerguntasFicheiro(*iniListaPerguntas);
                     break;
                 default:
                     printf("Escolha uma opção entre 1 e 6\n");

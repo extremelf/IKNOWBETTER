@@ -257,6 +257,20 @@ void listarUtilizadores(ELEMENTO *iniLista){
 //************************************************************
 
 //************************************************************
+// Listar ranking armazenados em lista
+//************************************************************
+void listarRanking(ELEMENTOR *iniLista){
+    ELEMENTOR *aux=NULL;
+    printf("**************************************Jogos ordenados por data decrescente**************************************\n");
+    printf("Jogador 1           Valor acumulado     Jogador 2           valor acumulado     Total de caixa      Data\n");
+    for(aux=iniLista;aux!=NULL;aux=aux->seguinte){
+        printf("%s \t\t\t %i\t\t\t\t %s\t\t\t\t\t %i\t\t\t\t%i\t\t\t%i/%i/%i\n",aux->info.username,aux->info.dinheiro,aux->info.username2,aux->info.dinheiro2,aux->info.caixa,
+               aux->info.data.dia,aux->info.data.mes,aux->info.data.ano);
+    }
+}
+//************************************************************
+
+//************************************************************
 //        Organizar a informação dos jogadores por nomes
 //************************************************************
 void bubbleSort(ELEMENTO **iniLista){
@@ -286,6 +300,64 @@ void bubbleSort(ELEMENTO **iniLista){
 //************************************************************
 
 //************************************************************
+//        Organizar a informação de ranking por mes
+//************************************************************
+void bubbleSortRankingMes(ELEMENTOR **iniLista){
+    int swapped, i;
+    ELEMENTOR *ptr1;
+    ELEMENTOR *lptr = NULL;
+
+    if (iniLista == NULL){
+        printf("Lista está Vazia\n");
+        return;
+    }
+
+    do{
+        swapped = 0;
+        ptr1 = *iniLista;
+
+        while (ptr1->seguinte != lptr){
+            if (ptr1->info.data.mes>ptr1->seguinte->info.data.mes){
+                swapRanking(ptr1, ptr1->seguinte);
+                swapped = 1;
+            }
+            ptr1 = ptr1->seguinte;
+        }
+        lptr = ptr1;
+    }while (swapped);
+}
+//************************************************************
+
+//************************************************************
+//        Organizar a informação de ranking por dia
+//************************************************************
+void bubbleSortRankingDia(ELEMENTOR **iniLista){
+    int swapped, i;
+    ELEMENTOR *ptr1;
+    ELEMENTOR *lptr = NULL;
+
+    if (iniLista == NULL){
+        printf("Lista está Vazia\n");
+        return;
+    }
+
+    do{
+        swapped = 0;
+        ptr1 = *iniLista;
+
+        while (ptr1->seguinte != lptr){
+            if (ptr1->info.data.dia>ptr1->seguinte->info.data.dia){
+                swapRanking(ptr1, ptr1->seguinte);
+                swapped = 1;
+            }
+            ptr1 = ptr1->seguinte;
+        }
+        lptr = ptr1;
+    }while (swapped);
+}
+//************************************************************
+
+//************************************************************
 //                      Trocar posições da lista
 //************************************************************
 void swap(ELEMENTO *a, ELEMENTO *b){
@@ -296,14 +368,43 @@ void swap(ELEMENTO *a, ELEMENTO *b){
 //************************************************************
 
 //************************************************************
+//                      Trocar posições da lista
+//************************************************************
+void swapRanking(ELEMENTOR *a, ELEMENTOR *b){
+    RANKING temp = a->info;
+    a->info = b->info;
+    b->info = temp;
+}
+//************************************************************
+
+//************************************************************
 //              Apresentar informação atual de jogo
 //************************************************************
 void apresentarInfoJogo(ELEMENTO *aux2[], int caixa){
     printf("Dinheiro\t\tCaixa\t\tApostas\n");
-    printf("%s: %i\t%i\t\t%i\n", aux2[0]->info.username, aux2[0]->info.dinheiro, caixa, aux2[0]->info.apostaFinal);
-    printf("%s: %i\t\t\t\t\t%i\n", aux2[1]->info.username, aux2[1]->info.dinheiro, aux2[1]->info.apostaFinal);
+    printf("%s: %i\t%i\t\t\t%i\n", aux2[0]->info.username, aux2[0]->info.dinheiro, caixa, aux2[0]->info.apostaFinal);
+    printf("%s: %i\t\t\t\t\t\t%i\n", aux2[1]->info.username, aux2[1]->info.dinheiro, aux2[1]->info.apostaFinal);
 }
 
+//************************************************************
+
+//************************************************************
+//                      Remover ultima pergunta lida
+//************************************************************
+int removerUltimoJogadorLido(ELEMENTO **iniLista,ELEMENTO **fimLista){
+    ELEMENTO *aux=NULL;
+
+    aux=(*fimLista);
+
+    if(aux==NULL){
+        printf("Lista Vazia\n");
+        return -1;
+    }
+    aux->anterior->seguinte=NULL;
+    (*fimLista)=aux->anterior;
+    free(aux);
+    return 0;
+}
 //************************************************************
 
 //************************************************************
@@ -311,19 +412,45 @@ void apresentarInfoJogo(ELEMENTO *aux2[], int caixa){
 //************************************************************
 int gravarEmFicheiro(ELEMENTO *inilista) {
     ELEMENTO *aux = NULL;
-    FILE *fp = NULL;
-    fp = fopen("utilizadores.dat", "wb");
+    FILE *fu = NULL;
+    fu = fopen("utilizadores.dat", "wb");
 
-    if (fp == NULL) {
+    if (fu == NULL) {
         printf("Erro ao criar ficheiro\n");
         return -1;
     }
-    //fwrite(totregistos, sizeof(int), 1, fp);
+
     for (aux = inilista; aux != NULL; aux = aux->seguinte) {
-        fwrite(&(aux->info), sizeof(USER), 1, fp);
+        fwrite(&(aux->info), sizeof(USER), 1, fu);
     }
+
+    fclose(fu);
+    printf("Ficheiro utilizadores.dat com sucesso\n");
+
+    return 0;
+}
+//************************************************************
+
+//************************************************************
+//           Gravar lista das Perguntas em ficheiro
+//************************************************************
+int gravarPerguntasFicheiro(ELEMENTOP *iniLista){
+    ELEMENTOP *aux=NULL;
+    FILE *fp=NULL;
+
+    fp=fopen("perguntas.dat","wb");
+
+    if(fp==NULL){
+        printf("Erro a criar ficheiro\n");
+        return -1;
+    }
+
+    for(aux=iniLista;aux!=NULL;aux=aux->seguinte){
+        fwrite(&(aux->info),sizeof(PERGUNTA),1,fp);
+    }
+
     fclose(fp);
-    printf("Ficheiro criado com sucesso\n");
+    printf("Ficheiro perguntas.dat criado com sucesso\n");
 
     return 0;
 }
@@ -357,31 +484,36 @@ void lerUserEmFicheiro(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
 //************************************************************
 void lerRanking(ELEMENTOR **iniLista,ELEMENTOR **fimLista){
     FILE *ranking=NULL;
-    RANKING *aux=NULL;
+    RANKING aux;
 
-    ranking=fopen("ranking.txt","r");
+    ranking=fopen("ranking.dat","rb");
 
+    if(ranking==NULL){
+
+            return;
+    }
     while(1){
-        fscanf(ranking,"%s;%i;%s;%i;%i;%i/%i/%i\n",aux->username,&aux->dinheiro,aux->username2,&aux->dinheiro2,&aux->data.dia,&aux->data.mes,&aux->data.ano);
-        inserirFimListaRanking(iniLista,fimLista,*aux);
         if(feof(ranking)){
             break;
         }
+        fread(&aux,sizeof(RANKING),1,ranking);
+        inserirFimListaRanking(iniLista,fimLista,aux);
     }
+    fclose(ranking);
 }
 //************************************************************
 
 //************************************************************
 //             Gravar Ranking em ficheiro
 //************************************************************
-void gravarRanking(ELEMENTO *iniLista,ELEMENTO *user[],int caixa,DATA dataAtual){
+void gravarRanking(ELEMENTOR *iniLista){
     FILE *ranking=NULL;
-    ELEMENTO *aux=NULL;
+    ELEMENTOR *aux=NULL;
 
-    ranking=fopen("ranking.txt","w");
+    ranking=fopen("ranking.dat","wb");
 
     for(aux=iniLista;aux!=NULL;aux=aux->seguinte){
-        fprintf(ranking,"%s;%i;%s;%i;%i;%i/%i/%i\n",user[0]->info.username,user[0]->info.dinheiro,user[1]->info.username,user[1]->info.dinheiro,caixa,dataAtual.dia,dataAtual.mes,dataAtual.ano);
+        fwrite(&(aux->info),sizeof(RANKING),1,ranking);
     }
     fclose(ranking);
 }
@@ -390,17 +522,18 @@ void gravarRanking(ELEMENTO *iniLista,ELEMENTO *user[],int caixa,DATA dataAtual)
 //************************************************************
 //              Função de jogo principal
 //************************************************************
-void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOP *fimListaPerguntas) {
+void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOP *fimListaPerguntas,ELEMENTOR **iniListaRanking,ELEMENTOR **fimListaRanking) {
     int jogada = 0, i = 0, j = 0;
     char carater;
     char resposta[100];
     int caixa = 900;
     int categoria = 0;
     int totalApostaFinal;
-    ELEMENTO *maiorPontuacao = NULL, *menorPontuacao = NULL;
     DATA dataAtual;
+    RANKING rankingJogo;
 
     ELEMENTOP *aux = NULL;
+    ELEMENTO *maiorPontuacao = NULL, *menorPontuacao = NULL;
     ELEMENTO *aux2[2] = {NULL, NULL};
 
     user[0]->info.dinheiro=0;
@@ -458,14 +591,14 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
 
     for (i = 0; i < 2; i++) {
         do {
-            printf("Introduza o valor da aposta final do jogador %s:\n", user[i]->info.username);
+            printf("\nIntroduza o valor da aposta final do jogador %s:\n", user[i]->info.username);
             scanf("%i", &user[i]->info.apostaFinal);
 
         } while (user[i]->info.apostaFinal < 500 && user[i]->info.apostaFinal > user[i]->info.dinheiro);
     }
 
-    //user[0]->info.dinheiro -= user[0]->info.apostaFinal;
-    //user[1]->info.dinheiro -= user[1]->info.apostaFinal;
+    user[0]->info.dinheiro -= user[0]->info.apostaFinal;
+    user[1]->info.dinheiro -= user[1]->info.apostaFinal;
 
     totalApostaFinal = user[0]->info.apostaFinal + user[1]->info.apostaFinal;
 
@@ -473,8 +606,24 @@ void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPe
     apresentacaoPerguntas(aux);
     verificarPerguntaFinal(aux,maiorPontuacao,menorPontuacao,totalApostaFinal,&caixa);
 
+    printf("\n");
+    printf("Resultado Final:\n");
+    apresentarInfoJogo(user,caixa);
     dataAtual=getdate();
     user[0]->info.ultima=dataAtual;
     user[1]->info.ultima=dataAtual;
+
+    strcpy(rankingJogo.username,user[0]->info.username);
+    rankingJogo.dinheiro=user[0]->info.dinheiro;
+    strcpy(rankingJogo.username2,user[1]->info.username);
+    rankingJogo.dinheiro2=user[1]->info.dinheiro;
+    rankingJogo.caixa=caixa;
+    rankingJogo.data=dataAtual;
+
+    inserirFimListaRanking(iniListaRanking,fimListaRanking,rankingJogo);
+
+    limparListaPerguntas(&iniListaPerguntas2,&iniListaPerguntas2);
+    user[0]=NULL;
+    user[1]=NULL;
 }
 //************************************************************

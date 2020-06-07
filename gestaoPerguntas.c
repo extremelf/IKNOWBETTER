@@ -106,29 +106,61 @@ void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
 //************************************************************
 
 //************************************************************
+//                      Remover ultima pergunta lida
+//************************************************************
+int removerUltimaPerguntaLida(ELEMENTOP **iniLista,ELEMENTOP **fimLista){
+    ELEMENTOP *aux=NULL;
+
+    aux=(*fimLista);
+
+    if(aux==NULL){
+        printf("Lista Vazia\n");
+        return -1;
+    }
+    aux->anterior->seguinte=NULL;
+    (*fimLista)=aux->anterior;
+    free(aux);
+    return 0;
+}
+//************************************************************
+
+//************************************************************
+//                      Remover ultima pergunta lida
+//************************************************************
+int removerUltimoRankingLido(ELEMENTOR **iniLista,ELEMENTOR **fimLista){
+    ELEMENTOR *aux=NULL;
+
+    aux=(*fimLista);
+
+    if(aux==NULL){
+        return -1;
+    }
+    aux->anterior->seguinte=NULL;
+    (*fimLista)=aux->anterior;
+    free(aux);
+    return 0;
+}
+//************************************************************
+
+//************************************************************
 //                      Gerar a pergunta Final
 //************************************************************
 ELEMENTOP *perguntaFinal(int categoria,ELEMENTOP *iniLista){
     int vetor;
-    int check=1;
-    ELEMENTOP *aux=NULL,*aux2=NULL;
-    aux=iniLista;
+    ELEMENTOP *aux=NULL;
 
     do{
+        aux=iniLista;
         vetor=rand()%66;
-        printf("aqui\n");
-        do {
-            printf("1");
-            if (aux->info.indice == vetor && aux->info.categoria == categoria) {
-                printf("2");
+        while(aux!=NULL){
+            if ((aux->info.indice == vetor) && (aux->info.categoria == categoria)) {
                 return aux;
             }
             if(aux==NULL){
-                printf("XD");
                 break;
             }
             aux = aux->seguinte;
-        }while(1);
+        }
     }while(1);
 }
 //************************************************************
@@ -139,16 +171,16 @@ ELEMENTOP *perguntaFinal(int categoria,ELEMENTOP *iniLista){
 void apresentacaoPerguntas(ELEMENTOP *aux){
     switch (aux->info.tipoPergunta) {
         case 1: {
-            printf(" %s\n %s\t %s\n %s\t %s", aux->info.pergunta, aux->info.respostas[0],
+            printf(" %s\n %s\t %s\n %s\t %s\n", aux->info.pergunta, aux->info.respostas[0],
                    aux->info.respostas[1], aux->info.respostas[2], aux->info.respostas[3]);
             break;
         }
         case 2: {
-            printf(" %s\n Resposta:", aux->info.pergunta);
+            printf(" %s\n Resposta:\n", aux->info.pergunta);
             break;
         }
         case 3: {
-            printf("%s \n Resposta V/F:", aux->info.pergunta);
+            printf("%s \n Resposta:\n", aux->info.pergunta);
         }
     }
 }

@@ -16,50 +16,13 @@ USER registarUser(){
     printf("Introduza a sua nacionalidade:\n");
     scanf(" %100[^\n]s",aux.nacionalidade);
     aux.isAdmin=0;
+    aux.ultima.dia=0;
+    aux.ultima.mes=0;
+    aux.ultima.ano=0;
     return aux;
 }
 
-PERGUNTA novaPergunta(){
-    PERGUNTA aux;
-    int tipoPergunta=0;
-    printf("Introduza a pergunta:\n");
-    scanf(" %300[^\n]s",aux.pergunta);
-    do{
-        printf("Introduza o tipo de pergunta:\n"
-               "1- escolha multipla\n"
-               "2- resposta direta\n"
-               "3- Verdadeiro ou falso\n");
-        scanf("%i",&tipoPergunta);
-        switch(tipoPergunta){
-            case 1:{
-                printf("Introduza a resposta A:\n");
-                scanf(" %300[^\n]s",aux.respostas[0]);
-                printf("Introduza a resposta B:\n");
-                scanf(" %300[^\n]s",aux.respostas[1]);
-                printf("Introduza a resposta C:\n");
-                scanf(" %300[^\n]s",aux.respostas[2]);
-                printf("Introduza a resposta D:\n");
-                scanf(" %300[^\n]s",aux.respostas[3]);
-                printf("Introduza a opção correta(apenas a letra maiuscula):\n");
-                scanf(" %100[^\n]s",aux.correta);
-                break;
-            }
-            case 2:{
-                printf("Introduza a resposta direta:\n");
-                scanf(" %300[^\n]s",aux.correta);
-                break;
-            }
-            case 3:{
-                printf("Resposta V ou F:\n");
-                scanf(" %100[^\n]s",aux.correta);
-                break;
-            }
-            default: printf("opcao errada");
-        }
-    }while(tipoPergunta!=0);
 
-    return aux;
-}
 int menu_arranque () {
     int opc = 0;
     printf("*************MENU-************\n");
@@ -75,6 +38,7 @@ int menu_user() {
     printf("******1-ACESSAR CONTA***\n");
     printf("******2-REGISTAR*******\n");
     printf("******3-JOGAR**********\n");
+    printf("******4-RANKNG*********\n");
     printf("******0-SAIR***********\n");
     scanf("%i", &opc);
     return opc;
@@ -86,7 +50,8 @@ int main() {
     int nPerguntas=0;
     int opc1=0, opc2=0;
     int i=0;
-    int pid;
+    int pid=0;
+    int cont1,cont2;
     struct timeval t;
     gettimeofday(&t, NULL);
     srand(t.tv_usec * t.tv_sec * pid);
@@ -101,8 +66,12 @@ int main() {
 
     lerPerguntas(&iniListaPerguntas,&fimListaPerguntas);
     lerUserEmFicheiro(&iniListaUser,&fimListaUser);
-    //lerRanking(&iniListaRanking,fimListaRanking);
-    //listarPerguntas(iniListaPerguntas);
+    lerRanking(&iniListaRanking,&fimListaRanking);
+
+    removerUltimaPerguntaLida(&iniListaPerguntas,&fimListaPerguntas);
+    removerUltimoJogadorLido(&iniListaUser,&fimListaUser);
+    removerUltimoRankingLido(&iniListaRanking,&fimListaRanking);
+
 
     do{
         opc1=menu_arranque();
@@ -120,7 +89,16 @@ int main() {
                                 do{
                                     printf("Jogador %i:\n",i+1);
                                     user[i]=login(iniListaUser);
-                                }while(user[i]==NULL);
+                                    if(user[i]==NULL){
+                                        cont1++;
+                                    }
+                                }while(user[i]==NULL && cont1!=3);
+                                if(cont1==3){
+                                    printf("Numero excessivo de tentativas\n");
+                                    cont2=3;
+                                    cont1=0;
+                                    break;
+                                }
                                 i++;
                                 if(user[1]==user[0]){
                                     printf("Utilizador já logado\n");
@@ -128,7 +106,9 @@ int main() {
                                     i--;
                                 }
                             }while(user[0]==NULL || user[1]==NULL);
-
+                            if(user[0]!=NULL && user[1]!=NULL){
+                                i=0;
+                            }
                             break;
                         }
                         case 2:{
@@ -144,9 +124,19 @@ int main() {
                             else{
                                 printf("Introduza a quantidade de perguntas a jogar:\n");
                                 scanf("%i",&nPerguntas);
+                                printf("\n\t\t\t\t\t\tAtenção\n"
+                                       "-Respostas de escolha multipla deve ser introduzida a letra da opção em maiúscula\n"
+                                       "-Respostas diretas em caso de nomes deve sempre começar por letra maiúscula\n"
+                                       "-Respostas de verdadeiro e falso deve ser introduzida a opção em maiúscula, \"V\" sendo verdadeiro e \"F\" falso\n\n");
                                 geradorPerguntas(iniListaPerguntas,&iniListaPerguntas2,&fimListaPerguntas2,nPerguntas);
-                                jogada(user,iniListaPerguntas2,fimListaPerguntas2,nPerguntas,iniListaPerguntas,fimListaPerguntas);
+                                jogada(user,iniListaPerguntas2,fimListaPerguntas2,nPerguntas,iniListaPerguntas,fimListaPerguntas,&iniListaRanking,&fimListaRanking);
                             }
+                            break;
+                        }
+                        case 4:{
+                            bubbleSortRankingMes(&iniListaRanking);
+                            bubbleSortRankingDia(&iniListaRanking);
+                            listarRanking(iniListaRanking);
                             break;
                         }
                         case 0:{
@@ -167,6 +157,7 @@ int main() {
             }
             case 0:{
                 printf("Saindo...\n");
+                gravarRanking(iniListaRanking);
                 gravarEmFicheiro(iniListaUser);
                 limparLista(&iniListaUser,&iniListaUser);
                 limparListaPerguntas(&iniListaPerguntas,&iniListaPerguntas);
