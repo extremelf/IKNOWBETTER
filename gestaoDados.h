@@ -65,16 +65,16 @@ typedef struct elemp{
     struct elemp *anterior;
 }ELEMENTOP;
 void painelAdmin(ELEMENTO *admin,ELEMENTO **iniListaUser,ELEMENTO **fimListaUser,ELEMENTOP **iniListaPerguntas,ELEMENTOP **fimListaPerguntas);
-void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOP *fimListaPerguntas,ELEMENTOR **iniListaRanking,ELEMENTOR **fimListaRanking);
+void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOR **iniListaRanking,ELEMENTOR **fimListaRanking);
 
 int inserirFimLista(ELEMENTO **inilista,ELEMENTO **fimlista, USER aux_info);
 int inserirFimListaPerguntas(ELEMENTOP **inilista,ELEMENTOP **fimlista, PERGUNTA aux_info);
 int inserirFimListaRanking(ELEMENTOR **inilista,ELEMENTOR **fimlista, RANKING aux_info);
 
 int removerPergunta(ELEMENTOP **inilista, ELEMENTOP **fimlista, int indice);
-int removerUltimaPerguntaLida(ELEMENTOP **iniLista,ELEMENTOP **fimLista);
-int removerUltimoJogadorLido(ELEMENTO **iniLista,ELEMENTO **fimLista);
-int removerUltimoRankingLido(ELEMENTOR **iniLista,ELEMENTOR **fimLista);
+int removerUltimaPerguntaLida(ELEMENTOP **fimLista);
+int removerUltimoJogadorLido(ELEMENTO **fimLista);
+int removerUltimoRankingLido(ELEMENTOR **fimLista);
 
 void limparLista(ELEMENTO **inilista, ELEMENTO **fimlista);
 void limparListaPerguntas(ELEMENTOP **inilista, ELEMENTOP **fimlista);

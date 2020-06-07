@@ -2,7 +2,7 @@
 // Created by Luis on 26/05/2020.
 //
 
-#include "gestaoPerguntas.h"
+#include "gestaoDados.h"
 
 //************************************************************
 // Gerador de perguntas aleatoriamente da lista sem repetir
@@ -108,31 +108,13 @@ void lerPerguntas(ELEMENTOP **iniLista, ELEMENTOP **fimLista){
 //************************************************************
 //                      Remover ultima pergunta lida
 //************************************************************
-int removerUltimaPerguntaLida(ELEMENTOP **iniLista,ELEMENTOP **fimLista){
+int removerUltimaPerguntaLida(ELEMENTOP **fimLista){
     ELEMENTOP *aux=NULL;
 
     aux=(*fimLista);
 
     if(aux==NULL){
         printf("Lista Vazia\n");
-        return -1;
-    }
-    aux->anterior->seguinte=NULL;
-    (*fimLista)=aux->anterior;
-    free(aux);
-    return 0;
-}
-//************************************************************
-
-//************************************************************
-//                      Remover ultima pergunta lida
-//************************************************************
-int removerUltimoRankingLido(ELEMENTOR **iniLista,ELEMENTOR **fimLista){
-    ELEMENTOR *aux=NULL;
-
-    aux=(*fimLista);
-
-    if(aux==NULL){
         return -1;
     }
     aux->anterior->seguinte=NULL;

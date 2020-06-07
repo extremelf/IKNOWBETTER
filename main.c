@@ -51,7 +51,7 @@ int main() {
     int opc1=0, opc2=0;
     int i=0;
     int pid=0;
-    int cont1,cont2;
+    int cont1=0,cont2=0;
     struct timeval t;
     gettimeofday(&t, NULL);
     srand(t.tv_usec * t.tv_sec * pid);
@@ -68,9 +68,9 @@ int main() {
     lerUserEmFicheiro(&iniListaUser,&fimListaUser);
     lerRanking(&iniListaRanking,&fimListaRanking);
 
-    removerUltimaPerguntaLida(&iniListaPerguntas,&fimListaPerguntas);
-    removerUltimoJogadorLido(&iniListaUser,&fimListaUser);
-    removerUltimoRankingLido(&iniListaRanking,&fimListaRanking);
+    removerUltimaPerguntaLida(&fimListaPerguntas);
+    removerUltimoJogadorLido(&fimListaUser);
+    removerUltimoRankingLido(&fimListaRanking);
 
 
     do{
@@ -129,7 +129,7 @@ int main() {
                                        "-Respostas diretas em caso de nomes deve sempre começar por letra maiúscula\n"
                                        "-Respostas de verdadeiro e falso deve ser introduzida a opção em maiúscula, \"V\" sendo verdadeiro e \"F\" falso\n\n");
                                 geradorPerguntas(iniListaPerguntas,&iniListaPerguntas2,&fimListaPerguntas2,nPerguntas);
-                                jogada(user,iniListaPerguntas2,fimListaPerguntas2,nPerguntas,iniListaPerguntas,fimListaPerguntas,&iniListaRanking,&fimListaRanking);
+                                jogada(user,iniListaPerguntas2,nPerguntas,iniListaPerguntas,&iniListaRanking,&fimListaRanking);
                             }
                             break;
                         }

@@ -33,24 +33,6 @@ int inserirFimListaUser(ELEMENTO **iniListaUser,ELEMENTO **fimListaUser, USER au
 //************************************************************
 
 //************************************************************
-//                      Limpar Lista User
-//************************************************************
-void limparListaUser(ELEMENTO **iniListaUser, ELEMENTO **fimListaUser){
-    ELEMENTO *aux, *proximo;
-
-    aux=*iniListaUser;
-    while(aux!=NULL){
-        proximo=aux->seguinte;
-        free(aux);
-        aux=proximo;
-    }
-    *iniListaUser=NULL;
-    *fimListaUser=NULL;
-    free(proximo);
-}
-//************************************************************
-
-//************************************************************
 //                 Login de utilizador existente
 //************************************************************
 ELEMENTO *login(ELEMENTO *iniLista){
@@ -274,7 +256,7 @@ void listarRanking(ELEMENTOR *iniLista){
 //        Organizar a informação dos jogadores por nomes
 //************************************************************
 void bubbleSort(ELEMENTO **iniLista){
-    int swapped, i;
+    int swapped;
     ELEMENTO *ptr1;
     ELEMENTO *lptr = NULL;
 
@@ -303,7 +285,7 @@ void bubbleSort(ELEMENTO **iniLista){
 //        Organizar a informação de ranking por mes
 //************************************************************
 void bubbleSortRankingMes(ELEMENTOR **iniLista){
-    int swapped, i;
+    int swapped;
     ELEMENTOR *ptr1;
     ELEMENTOR *lptr = NULL;
 
@@ -332,7 +314,7 @@ void bubbleSortRankingMes(ELEMENTOR **iniLista){
 //        Organizar a informação de ranking por dia
 //************************************************************
 void bubbleSortRankingDia(ELEMENTOR **iniLista){
-    int swapped, i;
+    int swapped;
     ELEMENTOR *ptr1;
     ELEMENTOR *lptr = NULL;
 
@@ -391,13 +373,31 @@ void apresentarInfoJogo(ELEMENTO *aux2[], int caixa){
 //************************************************************
 //                      Remover ultima pergunta lida
 //************************************************************
-int removerUltimoJogadorLido(ELEMENTO **iniLista,ELEMENTO **fimLista){
+int removerUltimoJogadorLido(ELEMENTO **fimLista){
     ELEMENTO *aux=NULL;
 
     aux=(*fimLista);
 
     if(aux==NULL){
         printf("Lista Vazia\n");
+        return -1;
+    }
+    aux->anterior->seguinte=NULL;
+    (*fimLista)=aux->anterior;
+    free(aux);
+    return 0;
+}
+//************************************************************
+
+//************************************************************
+//                      Remover ultimo Ranking lido
+//************************************************************
+int removerUltimoRankingLido(ELEMENTOR **fimLista){
+    ELEMENTOR *aux=NULL;
+
+    aux=(*fimLista);
+
+    if(aux==NULL){
         return -1;
     }
     aux->anterior->seguinte=NULL;
@@ -522,8 +522,8 @@ void gravarRanking(ELEMENTOR *iniLista){
 //************************************************************
 //              Função de jogo principal
 //************************************************************
-void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,ELEMENTOP *fimListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOP *fimListaPerguntas,ELEMENTOR **iniListaRanking,ELEMENTOR **fimListaRanking) {
-    int jogada = 0, i = 0, j = 0;
+void jogada(ELEMENTO *user[],ELEMENTOP *iniListaPerguntas2,int totPerguntas,ELEMENTOP *iniListaPerguntas,ELEMENTOR **iniListaRanking,ELEMENTOR **fimListaRanking) {
+    int jogada = 0, i = 0;
     char carater;
     char resposta[100];
     int caixa = 900;
